@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-export default function Card({ children, width, height, dropdownHandler, background }) {
+export default function Card({ children, width, height, dropdownHandler, background, style }) {
 
    return (
       <section
@@ -7,7 +7,8 @@ export default function Card({ children, width, height, dropdownHandler, backgro
          style={{
             background: background,
             gridColumn: `span ${width}`,
-            height: `${height}px`
+            height: `${height}px`,
+            ...style
          }}>
          {children}
       </section>
