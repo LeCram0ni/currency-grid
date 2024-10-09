@@ -1,13 +1,17 @@
+@font-face {
+   font-family: 'Archivo';
+   src: url("/Archivo.ttf");
+}
+
 :root {
-   font-size: 21pt;
-   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+   font-size: 18pt;
+   font-family: Archivo, system-ui, Avenir, Helvetica, Arial, sans-serif;
    line-height: 1.75;
    font-weight: 400;
 
    margin: auto;
    text-align: center;
    width: 60%;
-
 
 }
 
@@ -17,6 +21,7 @@
    --secondary: #2E3944;
    --ternary: #748D92;
    --font: #2E3944;
+   --panel: #748D92;
    --highlight-font: #ffffff;
    --highlight: #124E66;
    --highlight-neon: #67c1bb;
@@ -26,10 +31,11 @@
 
 [data-dark-mode="true"] {
    --bg: #0B0C10;
-   --main: #212A31;
+   --main: #272f35;
    --secondary: #2E3944;
    --ternary: #748D92;
    --font: #D3D9D4;
+   --panel: #748D92;
    --highlight: #124E66;
    --highlight-neon: #66FCF1;
 
@@ -47,6 +53,7 @@ body {
    flex-wrap: nowrap;
    justify-content: space-evenly;
    margin-top: 64px;
+   margin-bottom: 64px;
 }
 
 ul {
@@ -65,8 +72,36 @@ h6 {
    padding: 0;
 }
 
+h3 {
+   margin-top: -27px;
+   padding: 6px;
+}
+
 h6 {
    font-size: 11pt;
+}
+
+.icon-container {
+   transition: all 0.5s;
+}
+
+.currency-box {
+   display: flex;
+   padding: 72px;
+   justify-content: space-between;
+   flex-direction: column;
+}
+
+.currency-span {
+   display: flex;
+   flex-direction: row;
+   align-items: stretch;
+   justify-content: center;
+}
+
+.currency-span input {
+   margin-right: 24px;
+   text-align: center;
 }
 
 .dark-light-toggle {
@@ -78,7 +113,6 @@ h6 {
    cursor: pointer;
    margin: 20px;
    fill: var(--highlight-neon);
-
 }
 
 .container {
@@ -117,8 +151,12 @@ section:hover {
 }
 
 .diagram {
-   width: 92%;
+   width: 93%;
    height: 680px;
    margin: auto;
    /*padding-bottom: 100px;*/
+}
+
+.emoji {
+   font-size: 100pt;
 }

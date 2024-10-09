@@ -1,29 +1,50 @@
+
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
 import Dropdown from "./components/Dropdown"
 import Card from "./components/Card"
 //import key from "./key.js"
 
+import MoonFullIcon from "./assets/MoonFullIcon"
+import MoonLineIcon from "./assets/MoonLineIcon"
+import SunFullIcon from "./assets/SunFullIcon"
+import SunLineIcon from "./assets/SunLineIcon"
+
 import beacon from "./currencyBeaconResult.json"
+import options from "./chartjs-options"
 
 import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend, Title } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend, Title);
 
 import './App.css'
 
 function App() {
 
+   const currencies = [
+      "EUR", "USD", "GBP", "CHF", "CZK", "DKK", "HUF", "NOK", "PLN", "RON", "SEK", "RUB", "JPY", "CNY", "BTC", "ETH"
+   ];
+
+   const currencySymbols = [
+      "€", "$", "£", "₣", "Kč", "kr", "Ft", "kr", "zł", "lei", "kr", "₽", "¥", "元", "₿", "Ξ"
+   ]
+
    const [data, setData] = useState(beacon)
-   const [date, setdate] = useState()
+   const [date, setDate] = useState("2024-10-02")
    const [error, setError] = useState(null)
    const [loading, setLoading] = useState(null)
-   const [isOpen, setIsOpen] = useState(false)
-   const [isDarkMode, setIsDarkMode] = useState(true)
+   const [isDarkMode, setIsDarkMode] = useState(false)
+   const [isHovering, setIsHovering] = useState(false)
+   const [textValue, setTextValue] = useState("")
+   const [selectedCurrency1, setSelectedCurrency1] = useState(currencies[0])
+   const [selectedCurrency2, setSelectedCurrency2] = useState(currencies[1])
+   const [isSwitched, setIsSwitched] = useState(false)
 
-   const curr1 = "EUR"
-   const curr2 = "USD"
+   let status = null
 
+   const dataArray = []
+   const dateArray = []
+
+   ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend, Title);
 
    /*
       const symbols = "EUR,USD,GBP,CHF,CZK,DKK,HUF,NOK,PLN,RON,SEK,RUB,JPY,CNY,BTC,ETH"
@@ -81,126 +102,238 @@ function App() {
    */
 
    useEffect(() => {
-      const dateObject = new Date()
-      const year = dateObject.getFullYear()
-      const month = dateObject.getMonth() + 1
-      const day = dateObject.getDate()
+      let today = new Date();
+      today.setDate(today.getDate() - 6);
+      let isoDate = today.toISOString().split('T')[0].toString();
+      setDate(isoDate)
 
-      setdate(`${year}-${month}-${day}`)
+      console.log("date1 " + date)
 
-      console.log(date)
    }, [date])
-
 
    useEffect(() => {
       document.body.setAttribute('data-dark-mode', isDarkMode ? 'true' : 'false');
    }, [isDarkMode]);
 
-
    if (loading) return (<div>Loading</div>)
    if (error) return (<div>Error: {error.message}</div>)
 
+   let dateFirst = new Date(date)
+   dateFirst.setDate(dateFirst.getDate() - 27);
 
+   //setDate([])
+
+   let highest = 0
+   let lowest = Infinity
+   let first = 0
+
+   let workingDate = dateFirst;
+
+
+
+   for (let i = 0; i < 30; i++) {
+
+      workingDate.setDate(workingDate.getDate() + 1);
+      let dateISO = workingDate.toISOString().split('T')[0].toString();
+
+      let value = data.response[dateISO][selectedCurrency2]
+
+      if (isSwitched) {
+         //value = data.response[dateISO][selectedCurrency1]
+         console.log("XXXXXXXXXXXXXXXXXXXX")
+         dataArray.push(
+            (1 / value)
+         )
+      } else {
+         dataArray.push(
+            value
+         )
+      }
+      if (i == 0) {
+         first = value
+      }
+
+      console.log("VALUE " + value)
+      if (value > highest) {
+         highest = value
+      }
+      if (value < lowest) {
+         lowest = value
+      }
+
+      let formattedDate = dateISO.slice(5)
+      dateArray.push(formattedDate)
+      /*
+            console.log("dateISO " + dateISO)
+            console.log("workingDate " + workingDate)
+      */
+   }
+
+   let latest = parseFloat(dataArray[dataArray.length - 1]);
+   /*
+      console.log("LATEST: " + latest)
+      console.log("formattedDate: " + dateArray)
+      console.log(data.response[date][selectedCurrency2])
+   */
    const combinedData = {
-      labels: ['1', '2', '3', '4', '5', '6', "7", "8", "9", "10", "11", "12"],
+      labels: dateArray,
       datasets: [
          {
-            label: 'A',
-            data: [1.07, 1.06, 1.076, 1.072, 1.09931729, 1.092, 1.05, 1.06, 1.03, 1.082, 1.09931729, 1.06931729],
+            data: dataArray,
             borderColor: '#66FCF1',
-            tension: 0.3, // für eine glattere Kurve
-            borderWidth: 4,
+            tension: 0.2, // für eine glattere Kurve
+            borderWidth: 3.5,
             pointRadius: 3,
-            /*pointBackgroundColor: "#fff",
+            /*pointBackgroundColor: "#fff", 
             pointBorderColor: "#fff",*/
          }
       ],
    };
 
-   const options = {
-      plugins: {
-         legend: false // Hide legend
-      },
-      legend: {
-         display: false
-      },
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-         y: {
-            beginAtZero: false,
-            grid: {
-               color: 'rgba(255, 255, 255, 0.1)', // Gitterfarbe
-               lineWidth: 1, // Liniendicke der Gitterlinien
-            },
-         },
-         x: {
-            grid: {
-               color: 'rgba(255, 255, 255, 0.1)', // Gitterfarbe
-               lineWidth: 1, // Liniendicke der Gitterlinien
-            },
-         },
-      },
+   function switchMode() {
+      setIsDarkMode((prev) => !prev)
+   }
+
+   function handleMouseEnter() {
+      setIsHovering(true)
+   }
+
+   function handleMouseLeave() {
+      setIsHovering(false)
+   }
+
+   function handleTextField(e) {
+      setTextValue(e.target.value)
+   }
+
+   function currencyHandler(i, value) {
+      if (i == 1) {
+         setSelectedCurrency1(value)
+         console.log(i + " i " + value)
+      }
+      if (i == 2) {
+         setSelectedCurrency2(value)
+         console.log(i + " i " + value)
+      }
+   }
+
+   function currencySwitch() {
+      let oldFirst = selectedCurrency1
+      let oldSecond = selectedCurrency2
+      setSelectedCurrency1(oldSecond)
+      setSelectedCurrency2(oldFirst)
+      setIsSwitched((prev) => !prev)
    }
 
 
-   function dropdownHandler() {
-      setIsOpen((x) => !x)
+   if (isDarkMode) {
+      if (isHovering) {
+         status = 0
+      } else {
+         status = 1
+      }
+   } else if (isHovering) {
+      status = 2
+   } else {
+      status = 3
    }
 
-   //console.log(JSON.stringify(data))
+   // dark-hover    dark    light-hover   light
 
+   const icons = [
+      { Component: SunFullIcon },
+      { Component: SunLineIcon },
+      { Component: MoonFullIcon },
+      { Component: MoonLineIcon },
+   ];
+
+   const iconArray = icons.map(({ Component }) => (
+      <Component
+         key={Component.name} // Füge einen eindeutigen Schlüssel hinzu
+         onClick={switchMode}
+         onMouseEnter={handleMouseEnter}
+         onMouseLeave={handleMouseLeave}
+      />
+   ));
+
+   let textValue2 = parseFloat(textValue) * latest
+
+   //console.log(status)
    return (
       <>
-
-         <svg
-            className='dark-light-toggle'
-            viewBox="0 0 502.944 502.944"
-            onClick={() => setIsDarkMode((prev) => !prev)}
-         >
-            <path d="M 491.733 286.523 C 483.2 282.256 472.533 284.39 466.133 290.79 C 453.333 304.657 438.4 316.39 421.333 325.99 C 391.466 343.057 359.466 351.59 326.4 351.59 C 270.933 351.59 221.867 325.99 197.333 283.323 C 180.266 253.456 176 217.19 185.6 180.923 C 197.333 136.123 229.333 96.656 273.067 72.123 C 289.067 63.59 307.2 56.123 326.4 51.856 C 336 49.723 342.4 41.189 342.4 31.589 C 342.4 21.989 337.067 14.522 327.467 11.322 C 261.334 -7.878 188.8 -0.411 129.067 33.722 C 69.333 66.789 27.733 121.189 8.533 186.256 C -8.533 251.323 0 318.522 34.133 376.122 C 80 453.989 164.267 501.989 254.933 501.989 C 299.733 501.989 343.466 490.256 381.866 467.856 C 442.666 433.723 485.333 377.189 502.399 309.989 C 504.533 300.39 500.266 290.79 491.733 286.523 Z" />
-         </svg>
+         <div className="icon-container">
+            {iconArray[status]}
+         </div>
 
          <div className="container">
             <Card width="4" height="800" style={{ borderRadius: "64px 64px 8px 8px" }}>
+               <h3>1 {selectedCurrency1} in {selectedCurrency2}</h3>
                <div className="diagram">
 
                   <Line data={combinedData} options={options} />
                </div>
             </Card>
 
-            <Card width="1" height="250" >
+            <Card key="1" width="1" >
                <div className="top-card">
-                  <h4>Höchster Kurs</h4>
-                  <div>1 {curr1.toUpperCase()} = <span className="result">{(data.response["2024-10-06"][curr2]).toFixed(4)} {curr2.toUpperCase()}</span></div>
-                  <div>1 {curr2.toUpperCase()} = <span className="result">{(1 / +(data.response["2024-10-06"][curr2])).toFixed(4)} {curr1.toUpperCase()}</span></div>
+                  <h4>Höchster Wechselkurs</h4>
+                  <div>1 {selectedCurrency1} = <span className="result">{highest.toFixed(4)} {selectedCurrency2}</span></div>
+                  <div>1 {selectedCurrency2} = <span className="result">{lowest.toFixed(4)} {selectedCurrency1}</span></div>
                </div>
                <h6>letzte 30 Tage</h6>
             </Card>
-            <Card width="1" height="250" background={isDarkMode ? "var(--highlight)" : "var(--highlight-neon)"}>
+
+            <Card key="2" width="1" background={isDarkMode ? "var(--highlight)" : "var(--highlight-neon)"}>
                <div className="top-card">
-                  <h4>Aktueller Kurs</h4>
-                  <div>1 {curr1.toUpperCase()} = <span className="result">{(data.response["2024-10-06"][curr2]).toFixed(4)} {curr2.toUpperCase()}</span></div>
-                  <div>1 {curr2.toUpperCase()} = <span className="result">{(1 / +(data.response["2024-10-06"][curr2])).toFixed(4)} {curr1.toUpperCase()}</span></div>
+                  <h4>Aktueller Wechselkurs</h4>
+                  <div>1 {selectedCurrency1} = <span className="result">{(data.response["2024-10-06"][selectedCurrency2]).toFixed(4)} {selectedCurrency2}</span></div>
+                  <div>1 {selectedCurrency2} = <span className="result">{(1 / +(data.response["2024-10-06"][selectedCurrency2])).toFixed(4)} {selectedCurrency1}</span></div>
                </div>
                <h6>{date}</h6>
             </Card>
 
-            <Card width="2" height="250" dropdownHandler={dropdownHandler} style={{ backgroundColor: "var(--font)", color: "var(--highlight)" }}>
-               {isOpen ? <Dropdown /> : "Select"}
+            <Card key="3" width="1" style={{ backgroundColor: "var(--panel)", color: "var(--highlight)" }}>
+               <div className="currency-box">
+                  <span className="currency-span"><input value={textValue} onChange={handleTextField}></input> {selectedCurrency1}</span>
+                  <span className="currency-span"><input disabled value={isNaN(textValue2.toFixed(2)) ? 0 : textValue2.toFixed(2)}></input> {selectedCurrency2}</span>
+               </div>
             </Card>
-            <Card width="2" height="250" dropdownHandler={dropdownHandler}>
-               {isOpen ? <Dropdown /> : "Select"}
+
+
+
+            <select id="currency1" value={selectedCurrency1} onChange={(e) => currencyHandler(1, e.target.value)}>
+               {currencies.map((option) => (
+                  <option key={option} value={option} >
+                     {option}
+                  </option>
+               ))}
+            </select>
+
+
+            <select id="currency2" value={selectedCurrency2} onChange={(e) => currencyHandler(2, e.target.value)}>
+               {currencies.map((option) => (
+                  <option key={option} value={option} >
+                     {option}
+                  </option>
+               ))}
+            </select>
+
+
+            <Card width="1" >
+               <div className="emoji" onClick={currencySwitch}>
+                  💱
+               </div>
             </Card>
-            <Card width="2" height="250" dropdownHandler={dropdownHandler}>
-               {isOpen ? <Dropdown /> : "Select"}
+
+
+
+            <Card width="2" >
+               <div >
+                  {lowest}
+               </div>
             </Card>
-            <Card width="2" height="250" dropdownHandler={dropdownHandler}>
-               {isOpen ? <Dropdown /> : "Select"}
-            </Card>
-            <Card width="2" height="250" dropdownHandler={dropdownHandler}>
-               {isOpen ? <Dropdown /> : "Select"}
-            </Card>
+
+
 
          </div>
       </>

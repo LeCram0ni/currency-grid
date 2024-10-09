@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-export default function Card({ children, width, height, dropdownHandler, background, style }) {
+export default function Card({ children, width, height = 220, background, style }) {
 
    return (
       <section
-         onClick={dropdownHandler}
+
          style={{
             background: background,
             gridColumn: `span ${width}`,
