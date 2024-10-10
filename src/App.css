@@ -15,13 +15,34 @@
 
 }
 
+
+/*
+https://www.realtimecolors.com/?colors=262c27-f0f1f5-cad2d8-039b91-97d4ed&fonts=Inter-Inter
+
+:root[data-theme="light"] {
+  --text: #262c27;
+  --background: #f0f1f5;
+  --primary: #cad2d8;
+  --secondary: #039b91;
+  --accent: #97d4ed;
+}
+:root[data-theme="dark"] {
+  --text: #d3d9d4;
+  --background: #0a0b0f;
+  --primary: #272f35;
+  --secondary: #64fcf2;
+  --accent: #125068;
+}
+*/
+
+
 [data-dark-mode="false"] {
    --bg: #D3D9D4;
    --main: #9fa7a6;
    --secondary: #2E3944;
    --ternary: #748D92;
    --font: #2E3944;
-   --panel: #748D92;
+   --panel: #518b98;
    --highlight-font: #ffffff;
    --highlight: #124E66;
    --highlight-neon: #67c1bb;
@@ -35,7 +56,8 @@
    --secondary: #2E3944;
    --ternary: #748D92;
    --font: #D3D9D4;
-   --panel: #748D92;
+   --panel: #52748e;
+   --highlight-font: #66FCF1;
    --highlight: #124E66;
    --highlight-neon: #66FCF1;
 
@@ -52,7 +74,7 @@ body {
    flex-direction: column;
    flex-wrap: nowrap;
    justify-content: space-evenly;
-   margin-top: 64px;
+   margin-top: 16px;
    margin-bottom: 64px;
 }
 
@@ -72,6 +94,10 @@ h6 {
    padding: 0;
 }
 
+h1 {
+   font-size: 36pt;
+}
+
 h3 {
    margin-top: -27px;
    padding: 6px;
@@ -87,7 +113,6 @@ h6 {
 
 .currency-box {
    display: flex;
-   padding: 72px;
    justify-content: space-between;
    flex-direction: column;
 }
@@ -100,7 +125,6 @@ h6 {
 }
 
 .currency-span input {
-   margin-right: 24px;
    text-align: center;
 }
 
@@ -122,6 +146,18 @@ h6 {
    grid-column-gap: 0.6rem;
    grid-row-gap: 0.6rem;
 }
+
+#currency1 {
+   text-align: justify;
+}
+
+.currency-select {
+   font-family: monospace;
+   font-size: 14pt;
+   -webkit-user-select: none;
+   user-select: none;
+}
+
 
 section {
    display: grid;
@@ -155,8 +191,11 @@ section:hover {
    height: 680px;
    margin: auto;
    /*padding-bottom: 100px;*/
+
 }
 
 .emoji {
    font-size: 100pt;
+   -webkit-user-select: none;
+   user-select: none;
 }

@@ -1,7 +1,7 @@
 const options = {
    plugins: {
       legend: {
-         display: false, // Hide legend
+         display: false,
       },
       tooltip: {
          displayColors: false,
@@ -36,7 +36,7 @@ const options = {
       y: {
          beginAtZero: false,
          grid: {
-            color: 'rgba(211,217,212, 0.15)', // Gitterfarbe
+            color: 'rgba(211,217,212, 0.2)', // Gitterfarbe
             lineWidth: 1, // Liniendicke der Gitterlinien
          },
          ticks: {
@@ -49,7 +49,7 @@ const options = {
       },
       x: {
          grid: {
-            color: 'rgba(211,217,212, 0.15)', // Gitterfarbe
+            color: 'rgba(211,217,212, 0.2)', // Gitterfarbe
             lineWidth: 1, // Liniendicke der Gitterlinien
          },
          ticks: {

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Dropdown from "./components/Dropdown"
 import Card from "./components/Card"
+import CurrencySelector from "./components/CurrencySelector"
 //import key from "./key.js"
 
 import MoonFullIcon from "./assets/MoonFullIcon"
@@ -39,7 +40,7 @@ function App() {
    const [selectedCurrency2, setSelectedCurrency2] = useState(currencies[1])
    const [isSwitched, setIsSwitched] = useState(false)
 
-   let status = null
+   let darkModeIconStatus = null
 
    const dataArray = []
    const dateArray = []
@@ -131,7 +132,7 @@ function App() {
 
 
 
-   for (let i = 0; i < 30; i++) {
+   for (let i = 0; i < 20; i++) {
 
       workingDate.setDate(workingDate.getDate() + 1);
       let dateISO = workingDate.toISOString().split('T')[0].toString();
@@ -228,14 +229,14 @@ function App() {
 
    if (isDarkMode) {
       if (isHovering) {
-         status = 0
+         darkModeIconStatus = 0
       } else {
-         status = 1
+         darkModeIconStatus = 1
       }
    } else if (isHovering) {
-      status = 2
+      darkModeIconStatus = 2
    } else {
-      status = 3
+      darkModeIconStatus = 3
    }
 
    // dark-hover    dark    light-hover   light
@@ -249,7 +250,7 @@ function App() {
 
    const iconArray = icons.map(({ Component }) => (
       <Component
-         key={Component.name} // Füge einen eindeutigen Schlüssel hinzu
+         key={Component.name}
          onClick={switchMode}
          onMouseEnter={handleMouseEnter}
          onMouseLeave={handleMouseLeave}
@@ -258,19 +259,29 @@ function App() {
 
    let textValue2 = parseFloat(textValue) * latest
 
-   //console.log(status)
+   //console.log(darkModeIconStatus)
    return (
       <>
          <div className="icon-container">
-            {iconArray[status]}
+            {iconArray[darkModeIconStatus]}
          </div>
 
          <div className="container">
+            <Card width="4" height="100" style={{ background: "transparent" }}>
+               <h1>CurrencyGrid</h1>
+            </Card>
+
+
             <Card width="4" height="800" style={{ borderRadius: "64px 64px 8px 8px" }}>
                <h3>1 {selectedCurrency1} in {selectedCurrency2}</h3>
                <div className="diagram">
-
                   <Line data={combinedData} options={options} />
+
+
+                  {/*arrowfunction in options. const = ... je nach dark oder light mode andere hintergrundlinien*/}
+
+
+
                </div>
             </Card>
 
@@ -294,29 +305,30 @@ function App() {
 
             <Card key="3" width="1" style={{ backgroundColor: "var(--panel)", color: "var(--highlight)" }}>
                <div className="currency-box">
-                  <span className="currency-span"><input value={textValue} onChange={handleTextField}></input> {selectedCurrency1}</span>
-                  <span className="currency-span"><input disabled value={isNaN(textValue2.toFixed(2)) ? 0 : textValue2.toFixed(2)}></input> {selectedCurrency2}</span>
+                  <span className="currency-span"><input value={textValue} onChange={handleTextField}></input>
+                     <CurrencySelector
+                        no={1}
+                        currencySymbols={currencySymbols}
+                        currencies={currencies}
+                        selectedCurrency1={selectedCurrency1}
+                        selectedCurrency2={selectedCurrency2}
+                        currencyHandler={currencyHandler}
+                     />
+                  </span>
+
+                  <span className="currency-span"><input value={textValue} onChange={handleTextField} disabled></input>
+                     <CurrencySelector
+                        no={2}
+                        currencySymbols={currencySymbols}
+                        currencies={currencies}
+                        selectedCurrency1={selectedCurrency1}
+                        selectedCurrency2={selectedCurrency2}
+                        currencyHandler={currencyHandler}
+                     />
+                  </span>
                </div>
             </Card>
 
-
-
-            <select id="currency1" value={selectedCurrency1} onChange={(e) => currencyHandler(1, e.target.value)}>
-               {currencies.map((option) => (
-                  <option key={option} value={option} >
-                     {option}
-                  </option>
-               ))}
-            </select>
-
-
-            <select id="currency2" value={selectedCurrency2} onChange={(e) => currencyHandler(2, e.target.value)}>
-               {currencies.map((option) => (
-                  <option key={option} value={option} >
-                     {option}
-                  </option>
-               ))}
-            </select>
 
 
             <Card width="1" >
