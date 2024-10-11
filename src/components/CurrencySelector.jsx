@@ -13,7 +13,7 @@ export default function CurrencySelector({ currencies, currencySymbols, no, sele
       <select className="currency-select" id="currency1" value={value} onChange={(e) => currencyHandler(no, e.target.value)}>
          {currencies.map((currency, index) => (
             <option key={currency} value={currency} >
-               <span>{currency}</span>{"\u2003"}<span>({currencySymbols[index]})</span>
+               {currency}{"\u2003"}({currencySymbols[index]})
             </option>
          ))}
       </select>

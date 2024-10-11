@@ -107,14 +107,91 @@ h6 {
    font-size: 11pt;
 }
 
+
+
+
+
+
+
+.input-select-container {
+   display: flex;
+   /* Flexbox für nebeneinander liegende Elemente */
+   border: 2px solid #ccc;
+   /* Rahmen für den Container */
+   border-radius: 5px;
+   /* Abgerundete Ecken */
+   overflow: hidden;
+   /* Verhindert, dass die Ecken des Inputs und des Selects überstehen */
+}
+
+input {
+   padding: 10px;
+   /* Innenabstand für das Input-Feld */
+   border: none;
+   /* Rahmen des Input-Feldes entfernen */
+   font-size: 16px;
+   /* Schriftgröße */
+   outline: none;
+   /* Standard-Außenrahmen entfernen */
+}
+
+select {
+   padding: 10px;
+   border: none;
+   cursor: pointer;
+}
+
+
+
+
+
+
+
+.title-header {
+
+   position: absolute;
+   top: 0px;
+   left: 0px;
+   margin-left: 96px;
+   margin-top: 48px;
+   fill: var(--highlight-neon);
+
+}
+
 .icon-container {
    transition: all 0.5s;
 }
 
-.currency-box {
+.currency-box input {
    display: flex;
    justify-content: space-between;
    flex-direction: column;
+   font-size: 26pt;
+   height: 58px;
+   border-radius: 16px 0 0 16px;
+}
+
+.currency-box span:nth-child(1) select {
+   /* Deine Stile für das zweite Input-Feld */
+   background-color: rgb(227, 227, 227);
+}
+
+.currency-box span:nth-child(2) input {
+   /* Deine Stile für das zweite Input-Feld */
+   background-color: var(--font);
+   /* Beispiel: Hintergrundfarbe */
+   color: var(--highlight-neon);
+}
+
+.currency-box span:nth-child(2) select {
+   /* Deine Stile für das zweite Input-Feld */
+   background-color: black;
+   /* Beispiel: Hintergrundfarbe */
+   color: var(--bg);
+}
+
+.currency-box select {
+   border-radius: 0 16px 16px 0;
 }
 
 .currency-span {
@@ -130,12 +207,12 @@ h6 {
 
 .dark-light-toggle {
    position: absolute;
-   width: 36px;
-   height: 36px;
+   width: 42px;
+   height: 42px;
    top: 0px;
    right: 0px;
    cursor: pointer;
-   margin: 20px;
+   margin: 64px;
    fill: var(--highlight-neon);
 }
 
@@ -198,4 +275,23 @@ section:hover {
    font-size: 100pt;
    -webkit-user-select: none;
    user-select: none;
+}
+
+.flex {
+   display: flex;
+   text-align: justify;
+   align-items: center;
+   justify-content: center;
+}
+
+.line-height-small {
+   line-height: 1.4;
+   font-size: 17pt;
+}
+
+.funfact {
+   line-height: 1.4;
+   padding: 64px;
+   font-size: 17pt;
+   font-style: italic;
 }
