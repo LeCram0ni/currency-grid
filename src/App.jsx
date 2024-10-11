@@ -29,8 +29,22 @@ function App() {
       "€", "$", "£", "₣", "Kč", "kr", "Ft", "kr", "zł", "lei", "kr", "₽", "¥", "元", "₿", "Ξ"
    ]
 
+   const funfacts = [
+      "Kroatien löste am 01. Januar 2023 die bisherige Währung Kuna durch den Euro ab.",
+      "Rumänien möchte den Euro 2029 einführen.",
+      "Am 12. Juli 2022 erreichte der Euro-Dollar-Wechselkurs seit fast 20 Jahren erneut ein Verhältnis von 1:1.",
+      "Der Euro wurde am 1. Januar 1999 als Buchgeld eingeführt und trat am 1. Januar 2002 in Form von Bargeld in 12 EU-Ländern in Kraft.",
+      "Das Euro-Zeichen (€) wurde 1996 entworfen.",
+      "Über 340 Millionen Menschen in Europa nutzen den Euro als ihre Hauptwährung.",
+      "Der Euro ist die gemeinsame Währung von 20 der 27 EU-Mitgliedstaaten, die zusammen als Eurozone bezeichnet werden.",
+      "Um dem Euro beizutreten, müssen Länder bestimmte wirtschaftliche Kriterien erfüllen, die als Maastricht-Kriterien bekannt sind. Diese Kriterien betreffen unter anderem Inflation, öffentliche Schulden und Wechselkursstabilität.",
+      "Die erste Euro-Münze wurde am 1. Januar 2002 in Berlin geprägt, um den offiziellen Start des Euros als Bargeld zu feiern.",
+      "Viele Länder haben beim Euro-Wechselkurs einen festen Wechselkurs zur nationalen Währung, um Stabilität zu gewährleisten. Zum Beispiel wurde der Wechselkurs der D-Mark auf 1,95583 D-Mark pro Euro festgelegt.",
+
+   ]
+
    const [data, setData] = useState(beacon)
-   const [date, setDate] = useState("2024-10-02")
+   const [date, setDate] = useState("2024-10-06")
    const [error, setError] = useState(null)
    const [loading, setLoading] = useState(null)
    const [isDarkMode, setIsDarkMode] = useState(false)
@@ -102,7 +116,7 @@ function App() {
    
    */
 
-   useEffect(() => {
+   /*useEffect(() => {
       let today = new Date();
       today.setDate(today.getDate() - 6);
       let isoDate = today.toISOString().split('T')[0].toString();
@@ -111,7 +125,7 @@ function App() {
       console.log("date1 " + date)
 
    }, [date])
-
+*/
    useEffect(() => {
       document.body.setAttribute('data-dark-mode', isDarkMode ? 'true' : 'false');
    }, [isDarkMode]);
@@ -120,19 +134,16 @@ function App() {
    if (error) return (<div>Error: {error.message}</div>)
 
    let dateFirst = new Date(date)
-   dateFirst.setDate(dateFirst.getDate() - 27);
+   dateFirst.setDate(dateFirst.getDate() - 31);
 
    //setDate([])
 
    let highest = 0
    let lowest = Infinity
-   let first = 0
 
    let workingDate = dateFirst;
 
-
-
-   for (let i = 0; i < 20; i++) {
+   for (let i = 0; i < 31; i++) {
 
       workingDate.setDate(workingDate.getDate() + 1);
       let dateISO = workingDate.toISOString().split('T')[0].toString();
@@ -149,9 +160,6 @@ function App() {
          dataArray.push(
             value
          )
-      }
-      if (i == 0) {
-         first = value
       }
 
       console.log("VALUE " + value)
@@ -170,7 +178,12 @@ function App() {
       */
    }
 
+   let first = parseFloat(dataArray[0]);
    let latest = parseFloat(dataArray[dataArray.length - 1]);
+
+   let trend = (1 - (first / latest)) * 100
+   console.log(`Der Kurs von ${selectedCurrency2} ist im Verhältnis zu ${selectedCurrency1} um ${trend.toFixed(4)}% gestiegen`)
+
    /*
       console.log("LATEST: " + latest)
       console.log("formattedDate: " + dateArray)
@@ -257,8 +270,8 @@ function App() {
       />
    ));
 
-   let textValue2 = parseFloat(textValue) * latest
-
+   let textValue2 = parseFloat(textValue.replace(',', '.')) * latest
+   console.log(textValue + " " + latest)
    //console.log(darkModeIconStatus)
    return (
       <>
@@ -267,6 +280,7 @@ function App() {
          </div>
 
          <div className="container">
+
             <Card width="4" height="100" style={{ background: "transparent" }}>
                <h1>CurrencyGrid</h1>
             </Card>
@@ -285,14 +299,11 @@ function App() {
                </div>
             </Card>
 
-            <Card key="1" width="1" >
-               <div className="top-card">
-                  <h4>Höchster Wechselkurs</h4>
-                  <div>1 {selectedCurrency1} = <span className="result">{highest.toFixed(4)} {selectedCurrency2}</span></div>
-                  <div>1 {selectedCurrency2} = <span className="result">{lowest.toFixed(4)} {selectedCurrency1}</span></div>
-               </div>
-               <h6>letzte 30 Tage</h6>
-            </Card>
+
+
+
+
+
 
             <Card key="2" width="1" background={isDarkMode ? "var(--highlight)" : "var(--highlight-neon)"}>
                <div className="top-card">
@@ -303,7 +314,7 @@ function App() {
                <h6>{date}</h6>
             </Card>
 
-            <Card key="3" width="1" style={{ backgroundColor: "var(--panel)", color: "var(--highlight)" }}>
+            <Card key="3" width="2">
                <div className="currency-box">
                   <span className="currency-span"><input value={textValue} onChange={handleTextField}></input>
                      <CurrencySelector
@@ -316,7 +327,7 @@ function App() {
                      />
                   </span>
 
-                  <span className="currency-span"><input value={textValue} onChange={handleTextField} disabled></input>
+                  <span className="currency-span"><input value={textValue2 ? textValue2.toFixed(2) : 0} onChange={handleTextField} disabled></input>
                      <CurrencySelector
                         no={2}
                         currencySymbols={currencySymbols}
@@ -337,11 +348,28 @@ function App() {
                </div>
             </Card>
 
+            <Card key="1" width="1" >
+               <div className="top-card">
+                  <h4>Höchster Wechselkurs</h4>
+                  <div>1 {selectedCurrency1} = <span className="result">{highest.toFixed(4)} {selectedCurrency2}</span></div>
+                  <div>1 {selectedCurrency2} = <span className="result">{lowest.toFixed(4)} {selectedCurrency1}</span></div>
+               </div>
+               <h6>letzte 30 Tage</h6>
+            </Card>
 
 
             <Card width="2" >
-               <div >
-                  {lowest}
+               <div className="flex line-height-small funfact">
+                  {funfacts[Math.floor(Math.random() * funfacts.length)]}
+               </div>
+            </Card>
+
+            <Card width="1" >
+               <div className="flex line-height-small">
+                  {`Der Kurs von ${selectedCurrency2}`}<br />
+                  {`ist im Verhältnis zu ${selectedCurrency1}`}<br />
+                  in den letzten 30 Tagen <br />
+                  {`um ${trend.toFixed(4)}% gestiegen`}
                </div>
             </Card>
 
