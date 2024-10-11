@@ -182,7 +182,10 @@ function App() {
    let latest = parseFloat(dataArray[dataArray.length - 1]);
 
    let trend = (1 - (first / latest)) * 100
+<<<<<<< HEAD
    let trendWording = trend > 0 ? "gestiegen" : "gefallen"
+=======
+>>>>>>> 01f5e5f90fece5221f610a77e906607263d7ae42
    console.log(`Der Kurs von ${selectedCurrency2} ist im Verhältnis zu ${selectedCurrency1} um ${trend.toFixed(4)}% gestiegen`)
 
    /*
@@ -282,7 +285,11 @@ function App() {
 
          <div className="container">
 
+<<<<<<< HEAD
             <div className="title-header" >
+=======
+            <Card width="4" height="100" style={{ background: "transparent" }}>
+>>>>>>> 01f5e5f90fece5221f610a77e906607263d7ae42
                <h1>CurrencyGrid</h1>
             </div>
 
@@ -367,10 +374,17 @@ function App() {
 
             <Card width="1" >
                <div className="flex line-height-small">
+<<<<<<< HEAD
                   {`Der Kurs von ${selectedCurrency1}`}<br />
                   {`ist im Verhältnis zu ${selectedCurrency2}`}<br />
                   in den letzten 30 Tagen <br />
                   {`um ${Math.abs(trend).toFixed(4)}% ${trendWording}`}
+=======
+                  {`Der Kurs von ${selectedCurrency2}`}<br />
+                  {`ist im Verhältnis zu ${selectedCurrency1}`}<br />
+                  in den letzten 30 Tagen <br />
+                  {`um ${trend.toFixed(4)}% gestiegen`}
+>>>>>>> 01f5e5f90fece5221f610a77e906607263d7ae42
                </div>
             </Card>
 
