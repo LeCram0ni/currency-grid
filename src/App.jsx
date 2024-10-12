@@ -59,6 +59,9 @@ function App() {
    const dataArray = []
    const dateArray = []
 
+   let dateFirst = new Date(date)
+   dateFirst.setDate(dateFirst.getDate() - 31);
+
    ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend, Title);
 
    /*
@@ -132,9 +135,6 @@ function App() {
 
    if (loading) return (<div>Loading</div>)
    if (error) return (<div>Error: {error.message}</div>)
-
-   let dateFirst = new Date(date)
-   dateFirst.setDate(dateFirst.getDate() - 31);
 
    //setDate([])
 
