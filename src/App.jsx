@@ -31,8 +31,6 @@ function App() {
       "€", "$", "£", "₣", "Kč", "kr", "Ft", "kr", "zł", "lei", "kr", "₽", "¥", "元", "₿", "Ξ"
    ]
 
-
-
    const [data, setData] = useState(beacon)
    const [date, setDate] = useState("2024-10-06")
    const [error, setError] = useState(null)
