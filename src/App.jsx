@@ -1,10 +1,14 @@
 
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
-import Dropdown from "./components/Dropdown"
 import Card from "./components/Card"
-import CurrencySelector from "./components/CurrencySelector"
-//import key from "./key.js"
+import Graph from './components/Graph'
+import Title from './components/Title'
+import CurrentRate from "./components/CurrentRate"
+import CurrencyBox from './components/CurrencyBox'
+import Trend from './components/Trend'
+import HighestRate from './components/HighestRate'
+import Funfact from './components/Funfact'
 
 import MoonFullIcon from "./assets/MoonFullIcon"
 import MoonLineIcon from "./assets/MoonLineIcon"
@@ -12,12 +16,10 @@ import SunFullIcon from "./assets/SunFullIcon"
 import SunLineIcon from "./assets/SunLineIcon"
 
 import beacon from "./currencyBeaconResult.json"
-import options from "./chartjs-options"
-
-import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend, Title } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+//import key from "./key.js"
 
 import './App.css'
+import CurrencySwitch from './components/CurrencySwitch'
 
 function App() {
 
@@ -29,25 +31,13 @@ function App() {
       "€", "$", "£", "₣", "Kč", "kr", "Ft", "kr", "zł", "lei", "kr", "₽", "¥", "元", "₿", "Ξ"
    ]
 
-   const funfacts = [
-      "Kroatien löste am 01. Januar 2023 die bisherige Währung Kuna durch den Euro ab.",
-      "Rumänien möchte den Euro 2029 einführen.",
-      "Am 12. Juli 2022 erreichte der Euro-Dollar-Wechselkurs seit fast 20 Jahren erneut ein Verhältnis von 1:1.",
-      "Der Euro wurde am 1. Januar 1999 als Buchgeld eingeführt und trat am 1. Januar 2002 in Form von Bargeld in 12 EU-Ländern in Kraft.",
-      "Das Euro-Zeichen (€) wurde 1996 entworfen.",
-      "Über 340 Millionen Menschen in Europa nutzen den Euro als ihre Hauptwährung.",
-      "Der Euro ist die gemeinsame Währung von 20 der 27 EU-Mitgliedstaaten, die zusammen als Eurozone bezeichnet werden.",
-      "Um dem Euro beizutreten, müssen Länder bestimmte wirtschaftliche Kriterien erfüllen, die als Maastricht-Kriterien bekannt sind. Diese Kriterien betreffen unter anderem Inflation, öffentliche Schulden und Wechselkursstabilität.",
-      "Die erste Euro-Münze wurde am 1. Januar 2002 in Berlin geprägt, um den offiziellen Start des Euros als Bargeld zu feiern.",
-      "Viele Länder haben beim Euro-Wechselkurs einen festen Wechselkurs zur nationalen Währung, um Stabilität zu gewährleisten. Zum Beispiel wurde der Wechselkurs der D-Mark auf 1,95583 D-Mark pro Euro festgelegt.",
 
-   ]
 
    const [data, setData] = useState(beacon)
    const [date, setDate] = useState("2024-10-06")
    const [error, setError] = useState(null)
    const [loading, setLoading] = useState(null)
-   const [isDarkMode, setIsDarkMode] = useState(false)
+   const [isDarkMode, setIsDarkMode] = useState(true)
    const [isHovering, setIsHovering] = useState(false)
    const [textValue, setTextValue] = useState("")
    const [selectedCurrency1, setSelectedCurrency1] = useState(currencies[0])
@@ -61,8 +51,6 @@ function App() {
 
    let dateFirst = new Date(date)
    dateFirst.setDate(dateFirst.getDate() - 31);
-
-   ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend, Title);
 
    /*
       const symbols = "EUR,USD,GBP,CHF,CZK,DKK,HUF,NOK,PLN,RON,SEK,RUB,JPY,CNY,BTC,ETH"
@@ -282,99 +270,63 @@ function App() {
 
          <div className="container">
 
-            <div className="title-header" >
-               <h1>CurrencyGrid</h1>
-            </div>
+            <Title />
 
-
-            <Card width="4" height="800" style={{ borderRadius: "64px 64px 8px 8px" }}>
-               <h3>1 {selectedCurrency1} in {selectedCurrency2}</h3>
-               <div className="diagram">
-                  <Line data={combinedData} options={options} />
-
-
-                  {/*arrowfunction in options. const = ... je nach dark oder light mode andere hintergrundlinien*/}
-
-
-
-               </div>
+            <Card key="1" width="4" height="800" style={{ borderRadius: "64px 64px 8px 8px" }}>
+               <Graph
+                  selectedCurrency1={selectedCurrency1}
+                  selectedCurrency2={selectedCurrency2}
+                  combinedData={combinedData}
+               />
             </Card>
 
-
-
-
-
-
-
             <Card key="2" width="1" background={isDarkMode ? "var(--highlight)" : "var(--highlight-neon)"}>
-               <div className="top-card">
-                  <h4>Aktueller Wechselkurs</h4>
-                  <div>1 {selectedCurrency1} = <span className="result">{(data.response["2024-10-06"][selectedCurrency2]).toFixed(4)} {selectedCurrency2}</span></div>
-                  <div>1 {selectedCurrency2} = <span className="result">{(1 / +(data.response["2024-10-06"][selectedCurrency2])).toFixed(4)} {selectedCurrency1}</span></div>
-               </div>
-               <h6>{date}</h6>
+               <CurrentRate
+                  selectedCurrency1={selectedCurrency1}
+                  selectedCurrency2={selectedCurrency2}
+                  data={data}
+                  date={date}
+               />
             </Card>
 
             <Card key="3" width="2">
-               <div className="currency-box">
-                  <span className="currency-span"><input value={textValue} onChange={handleTextField}></input>
-                     <CurrencySelector
-                        no={1}
-                        currencySymbols={currencySymbols}
-                        currencies={currencies}
-                        selectedCurrency1={selectedCurrency1}
-                        selectedCurrency2={selectedCurrency2}
-                        currencyHandler={currencyHandler}
-                     />
-                  </span>
-
-                  <span className="currency-span"><input value={textValue2 ? textValue2.toFixed(2) : 0} onChange={handleTextField} disabled></input>
-                     <CurrencySelector
-                        no={2}
-                        currencySymbols={currencySymbols}
-                        currencies={currencies}
-                        selectedCurrency1={selectedCurrency1}
-                        selectedCurrency2={selectedCurrency2}
-                        currencyHandler={currencyHandler}
-                     />
-                  </span>
-               </div>
+               <CurrencyBox
+                  textValue={textValue}
+                  textValue2={textValue2}
+                  handleTextField={handleTextField}
+                  currencyHandler={currencyHandler}
+                  currencySymbols={currencySymbols}
+                  currencies={currencies}
+                  selectedCurrency1={selectedCurrency1}
+                  selectedCurrency2={selectedCurrency2}
+               />
             </Card>
 
-
-
-            <Card width="1" >
-               <div className="emoji" onClick={currencySwitch}>
-                  💱
-               </div>
+            <Card key="4" width="1" >
+               <CurrencySwitch currencySwitch={currencySwitch} />
             </Card>
 
-            <Card key="1" width="1" >
-               <div className="top-card">
-                  <h4>Höchster Wechselkurs</h4>
-                  <div>1 {selectedCurrency1} = <span className="result">{highest.toFixed(4)} {selectedCurrency2}</span></div>
-                  <div>1 {selectedCurrency2} = <span className="result">{lowest.toFixed(4)} {selectedCurrency1}</span></div>
-               </div>
-               <h6>letzte 30 Tage</h6>
+            <Card key="5" width="1" >
+               <HighestRate
+                  selectedCurrency1={selectedCurrency1}
+                  selectedCurrency2={selectedCurrency2}
+                  highest={highest}
+                  lowest={lowest}
+               />
             </Card>
 
-
-            <Card width="2" >
-               <div className="flex line-height-small funfact">
-                  {funfacts[Math.floor(Math.random() * funfacts.length)]}
-               </div>
+            <Card key="6" width="2" >
+               <Funfact />
             </Card>
 
-            <Card width="1" >
-               <div className="flex line-height-small">
-                  {`Der Kurs von ${selectedCurrency1}`}<br />
-                  {`ist im Verhältnis zu ${selectedCurrency2}`}<br />
-                  in den letzten 30 Tagen <br />
-                  {`um ${Math.abs(trend).toFixed(4)}% ${trendWording}`}
-               </div>
+            <Card key="7" width="1" >
+               <Trend
+                  selectedCurrency1={selectedCurrency1}
+                  selectedCurrency2={selectedCurrency2}
+                  trend={trend}
+                  trendWording={trendWording}
+               />
             </Card>
-
-
 
          </div>
       </>

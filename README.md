@@ -8,3 +8,44 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 <img src="https://i.imgur.com/vFq6DIR.jpeg"></img>
+
+
+1.Graph
+-selectedCurrency1
+-selectedCurrency2
+-combinedData
+-options
+
+2. Aktueller Wechselkurs
+-selectedCurrency1
+-selectedCurrency2
+-data
+-date
+
+3. CurrencyBox (Umrechner)
+-textValue
+-textValue2
+-currencies
+-currencySymbols
+-handleTextField
+-currencyHandler
+-selectedCurrency1
+-selectedCurrency2
+
+4. Switcher
+-currencySwitch
+
+5. Höchster Wechselkurs
+-selectedCurrency1
+-selectedCurrency2
+-highest
+-lowest
+
+6. Funfacts
+-funfacts
+
+7. Trend
+-selectedCurrency1
+-selectedCurrency2
+-trend
+-trendWording
