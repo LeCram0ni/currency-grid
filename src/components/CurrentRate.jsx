@@ -1,4 +1,4 @@
-export default function CurrentRate({ selectedCurrency1, selectedCurrency2, date, data }) {
+export default function CurrentRate({ selectedCurrency1, selectedCurrency2, today, data }) {
 
    return (<>
       <div className="top-card">
@@ -6,6 +6,6 @@ export default function CurrentRate({ selectedCurrency1, selectedCurrency2, date
          <div>1 {selectedCurrency1} = <span className="result">{(data.response["2024-10-06"][selectedCurrency2]).toFixed(4)} {selectedCurrency2}</span></div>
          <div>1 {selectedCurrency2} = <span className="result">{(1 / +(data.response["2024-10-06"][selectedCurrency2])).toFixed(4)} {selectedCurrency1}</span></div>
       </div>
-      <h6>{date}</h6>
+      <h6>{today}</h6>
    </>)
 }

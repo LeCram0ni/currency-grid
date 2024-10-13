@@ -21,7 +21,7 @@ import DarkmodeToggle from './components/DarkmodeToggle'
 function App() {
 
    const [data, setData] = useState(beacon)
-   const [date, setDate] = useState("2024-10-06")
+   const [today, setToday] = useState("2024-10-06")
    const [error, setError] = useState(null)
    const [loading, setLoading] = useState(null)
    const [isDarkMode, setIsDarkMode] = useState(true)
@@ -40,7 +40,7 @@ function App() {
       let tempHighest = 0;
       let tempLowest = Infinity;
 
-      let dateFirst = new Date(date);
+      let dateFirst = new Date(today);
       dateFirst.setDate(dateFirst.getDate() - 31);
       let workingDate = dateFirst;
 
@@ -71,7 +71,7 @@ function App() {
          highest: tempHighest,
          lowest: tempLowest,
       };
-   }, [data, date, selectedCurrency2, isSwitched]);
+   }, [data, today, selectedCurrency2, isSwitched]);
 
    /*
       const symbols = "EUR,USD,GBP,CHF,CZK,DKK,HUF,NOK,PLN,RON,SEK,RUB,JPY,CNY,BTC,ETH"
@@ -82,7 +82,7 @@ function App() {
 
    /*
    useEffect(() => {
-      fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${date}/${apiVersion}/${endpoint}.json`)
+      fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${today}/${apiVersion}/${endpoint}.json`)
          .then((res) => {
             if (!res.ok) {
                throw new Error("Fehlerhaftes fetch")
@@ -134,9 +134,9 @@ function App() {
       let isoDate = today.toISOString().split('T')[0].toString();
       setDate(isoDate)
 
-      console.log("date1 " + date)
+      console.log("date1 " + today)
 
-   }, [date])
+   }, [today])
 */
 
    const combinedData = useMemo(() => ({
@@ -154,13 +154,22 @@ function App() {
       ],
    }), [dataArray, dateArray]);
 
+
+
+
+
    if (loading) return (<div>Loading</div>)
    if (error) return (<div>Error: {error.message}</div>)
+
+   let first = parseFloat(dataArray[0]);
+   let latest = parseFloat(dataArray[dataArray.length - 1]);
+
+   let textValue2 = parseFloat(textValue.replace(',', '.')) * latest
 
    /*
       console.log("LATEST: " + latest)
       console.log("formattedDate: " + dateArray)
-      console.log(data.response[date][selectedCurrency2])
+      console.log(data.response[today][selectedCurrency2])
    */
 
    function switchMode() {
@@ -184,13 +193,6 @@ function App() {
       setIsSwitched((prev) => !prev)
    }
 
-   let first = parseFloat(dataArray[0]);
-   let latest = parseFloat(dataArray[dataArray.length - 1]);
-
-
-   let textValue2 = parseFloat(textValue.replace(',', '.')) * latest
-   //console.log(textValue + " " + latest)
-   //console.log(darkModeIconStatus)
    return (
       <>
          <Title />
@@ -215,7 +217,7 @@ function App() {
                   selectedCurrency1={selectedCurrency1}
                   selectedCurrency2={selectedCurrency2}
                   data={data}
-                  date={date}
+                  today={today}
                />
             </Card>
 

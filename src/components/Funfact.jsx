@@ -28,7 +28,7 @@ export default function Funfact() {
    function getNextFunfact() {
       let newFunfact = ""
       let index = funfactsArray.indexOf(funfact)
-      console.log("index " + index)
+
       if (index < funfactsArray.length - 1) {
          newFunfact = funfactsArray[index + 1]
       } else {
