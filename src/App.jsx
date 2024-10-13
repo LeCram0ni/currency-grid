@@ -1,6 +1,6 @@
 
 /* eslint-disable no-unused-vars */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Card from "./components/Card"
 import Graph from './components/Graph'
 import Title from './components/Title'
@@ -18,18 +18,12 @@ import SunLineIcon from "./assets/SunLineIcon"
 import beacon from "./currencyBeaconResult.json"
 //import key from "./key.js"
 
+import { currencies, currencySymbols } from "./currencies"
+
 import './App.css'
 import CurrencySwitch from './components/CurrencySwitch'
 
 function App() {
-
-   const currencies = [
-      "EUR", "USD", "GBP", "CHF", "CZK", "DKK", "HUF", "NOK", "PLN", "RON", "SEK", "RUB", "JPY", "CNY", "BTC", "ETH"
-   ];
-
-   const currencySymbols = [
-      "€", "$", "£", "₣", "Kč", "kr", "Ft", "kr", "zł", "lei", "kr", "₽", "¥", "元", "₿", "Ξ"
-   ]
 
    const [data, setData] = useState(beacon)
    const [date, setDate] = useState("2024-10-06")
@@ -42,13 +36,69 @@ function App() {
    const [selectedCurrency2, setSelectedCurrency2] = useState(currencies[1])
    const [isSwitched, setIsSwitched] = useState(false)
 
+   useEffect(() => {
+      document.body.setAttribute('data-dark-mode', isDarkMode ? 'true' : 'false');
+   }, [isDarkMode]);
+
+
+
    let darkModeIconStatus = null
 
    const dataArray = []
    const dateArray = []
 
+
+
+
+
+
+
+
+
+   let highest = 0
+   let lowest = Infinity
+
    let dateFirst = new Date(date)
    dateFirst.setDate(dateFirst.getDate() - 31);
+
+   let workingDate = dateFirst;
+
+   for (let i = 0; i < 31; i++) {
+
+      workingDate.setDate(workingDate.getDate() + 1);
+      let dateISO = workingDate.toISOString().split('T')[0].toString();
+
+      let value = data.response[dateISO][selectedCurrency2]
+
+      if (isSwitched) {
+         //value = data.response[dateISO][selectedCurrency1]
+         console.log("XXXXXXXXXXXXXXXXXXXX")
+         dataArray.push(
+            (1 / value)
+         )
+      } else {
+         dataArray.push(
+            value
+         )
+      }
+
+      console.log("VALUE " + value)
+      if (value > highest) {
+         highest = value
+      }
+      if (value < lowest) {
+         lowest = value
+      }
+
+      let formattedDate = dateISO.slice(5)
+      dateArray.push(formattedDate)
+      /*
+            console.log("dateISO " + dateISO)
+            console.log("workingDate " + workingDate)
+      */
+   }
+
+
 
    /*
       const symbols = "EUR,USD,GBP,CHF,CZK,DKK,HUF,NOK,PLN,RON,SEK,RUB,JPY,CNY,BTC,ETH"
@@ -115,54 +165,13 @@ function App() {
 
    }, [date])
 */
-   useEffect(() => {
-      document.body.setAttribute('data-dark-mode', isDarkMode ? 'true' : 'false');
-   }, [isDarkMode]);
+
+
 
    if (loading) return (<div>Loading</div>)
    if (error) return (<div>Error: {error.message}</div>)
 
    //setDate([])
-
-   let highest = 0
-   let lowest = Infinity
-
-   let workingDate = dateFirst;
-
-   for (let i = 0; i < 31; i++) {
-
-      workingDate.setDate(workingDate.getDate() + 1);
-      let dateISO = workingDate.toISOString().split('T')[0].toString();
-
-      let value = data.response[dateISO][selectedCurrency2]
-
-      if (isSwitched) {
-         //value = data.response[dateISO][selectedCurrency1]
-         console.log("XXXXXXXXXXXXXXXXXXXX")
-         dataArray.push(
-            (1 / value)
-         )
-      } else {
-         dataArray.push(
-            value
-         )
-      }
-
-      console.log("VALUE " + value)
-      if (value > highest) {
-         highest = value
-      }
-      if (value < lowest) {
-         lowest = value
-      }
-
-      let formattedDate = dateISO.slice(5)
-      dateArray.push(formattedDate)
-      /*
-            console.log("dateISO " + dateISO)
-            console.log("workingDate " + workingDate)
-      */
-   }
 
    let first = parseFloat(dataArray[0]);
    let latest = parseFloat(dataArray[dataArray.length - 1]);
@@ -176,7 +185,7 @@ function App() {
       console.log("formattedDate: " + dateArray)
       console.log(data.response[date][selectedCurrency2])
    */
-   const combinedData = {
+   const combinedData = useMemo(() => ({
       labels: dateArray,
       datasets: [
          {
@@ -189,7 +198,8 @@ function App() {
             pointBorderColor: "#fff",*/
          }
       ],
-   };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }), [dataArray]);
 
    function switchMode() {
       setIsDarkMode((prev) => !prev)
@@ -236,6 +246,7 @@ function App() {
    } else {
       darkModeIconStatus = 3
    }
+
 
    // dark-hover    dark    light-hover   light
 
