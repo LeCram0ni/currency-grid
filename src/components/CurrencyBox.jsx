@@ -1,6 +1,6 @@
 import CurrencySelector from "./CurrencySelector"
 
-export default function CurrencyBox({ textValue, textValue2, handleTextField, currencySymbols, currencies, selectedCurrency1, selectedCurrency2, currencyHandler }) {
+export default function CurrencyBox({ textValue, textValue2, handleTextField, currencySymbols, currencies, selectedCurrency1, selectedCurrency2, handleCurrencies }) {
 
    return (<>
       <div className="currency-box">
@@ -11,7 +11,7 @@ export default function CurrencyBox({ textValue, textValue2, handleTextField, cu
                currencies={currencies}
                selectedCurrency1={selectedCurrency1}
                selectedCurrency2={selectedCurrency2}
-               currencyHandler={currencyHandler}
+               currencyHandler={handleCurrencies}
             />
          </span>
 
@@ -22,7 +22,7 @@ export default function CurrencyBox({ textValue, textValue2, handleTextField, cu
                currencies={currencies}
                selectedCurrency1={selectedCurrency1}
                selectedCurrency2={selectedCurrency2}
-               currencyHandler={currencyHandler}
+               currencyHandler={handleCurrencies}
             />
          </span>
       </div>

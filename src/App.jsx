@@ -207,14 +207,12 @@ function App() {
       setTextValue(e.target.value)
    }
 
-   function currencyHandler(i, value) {
+   function handleCurrencies(i, value) {
       if (i == 1) {
          setSelectedCurrency1(value)
-         console.log(i + " i " + value)
       }
       if (i == 2) {
          setSelectedCurrency2(value)
-         console.log(i + " i " + value)
       }
    }
 
@@ -292,7 +290,7 @@ function App() {
                   textValue={textValue}
                   textValue2={textValue2}
                   handleTextField={handleTextField}
-                  currencyHandler={currencyHandler}
+                  handleCurrencies={handleCurrencies}
                   currencySymbols={currencySymbols}
                   currencies={currencies}
                   selectedCurrency1={selectedCurrency1}

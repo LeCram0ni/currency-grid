@@ -180,12 +180,12 @@ select {
    /* Deine Stile für das zweite Input-Feld */
    background-color: var(--font);
    /* Beispiel: Hintergrundfarbe */
-   color: var(--highlight-neon);
+   color: var(--highlight);
 }
 
 .currency-box span:nth-child(2) select {
    /* Deine Stile für das zweite Input-Feld */
-   background-color: black;
+   background-color: rgb(178, 178, 178);
    /* Beispiel: Hintergrundfarbe */
    color: var(--bg);
 }
@@ -294,4 +294,7 @@ section:hover {
    padding: 64px;
    font-size: 17pt;
    font-style: italic;
+
+   -webkit-user-select: none;
+   user-select: none;
 }

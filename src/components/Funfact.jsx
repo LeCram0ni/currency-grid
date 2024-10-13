@@ -1,6 +1,7 @@
-export default function Funfact() {
+import { useState } from "react"
 
-   const funfacts = [
+export default function Funfact() {
+   const funfactsArray = [
       "Kroatien löste am 01. Januar 2023 die bisherige Währung Kuna durch den Euro ab.",
       "Rumänien möchte den Euro 2029 einführen.",
       "Am 12. Juli 2022 erreichte der Euro-Dollar-Wechselkurs seit fast 20 Jahren erneut ein Verhältnis von 1:1.",
@@ -11,12 +12,19 @@ export default function Funfact() {
       "Um dem Euro beizutreten, müssen Länder bestimmte wirtschaftliche Kriterien erfüllen, die als Maastricht-Kriterien bekannt sind. Diese Kriterien betreffen unter anderem Inflation, öffentliche Schulden und Wechselkursstabilität.",
       "Die erste Euro-Münze wurde am 1. Januar 2002 in Berlin geprägt, um den offiziellen Start des Euros als Bargeld zu feiern.",
       "Viele Länder haben beim Euro-Wechselkurs einen festen Wechselkurs zur nationalen Währung, um Stabilität zu gewährleisten. Zum Beispiel wurde der Wechselkurs der D-Mark auf 1,95583 D-Mark pro Euro festgelegt.",
-
    ]
 
+   const initial = funfactsArray[Math.floor(Math.random() * funfactsArray.length)]
+   const [funfact, setFunfact] = useState(initial)
+
+   function getFunfact() {
+      let newFunfact = funfactsArray[Math.floor(Math.random() * funfactsArray.length)]
+      setFunfact(newFunfact)
+   }
+
    return (<>
-      <div className="flex line-height-small funfact">
-         {funfacts[Math.floor(Math.random() * funfacts.length)]}
+      <div className="flex line-height-small funfact" onClick={getFunfact}>
+         {funfact}
       </div>
    </>)
 }
