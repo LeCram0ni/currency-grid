@@ -1,4 +1,3 @@
-
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useMemo } from 'react'
 import Card from "./components/Card"
@@ -10,11 +9,6 @@ import Trend from './components/Trend'
 import HighestRate from './components/HighestRate'
 import Funfact from './components/Funfact'
 
-import MoonFullIcon from "./assets/MoonFullIcon"
-import MoonLineIcon from "./assets/MoonLineIcon"
-import SunFullIcon from "./assets/SunFullIcon"
-import SunLineIcon from "./assets/SunLineIcon"
-
 import beacon from "./currencyBeaconResult.json"
 //import key from "./key.js"
 
@@ -22,6 +16,7 @@ import { currencies, currencySymbols } from "./currencies"
 
 import './App.css'
 import CurrencySwitch from './components/CurrencySwitch'
+import DarkmodeToggle from './components/DarkmodeToggle'
 
 function App() {
 
@@ -30,7 +25,6 @@ function App() {
    const [error, setError] = useState(null)
    const [loading, setLoading] = useState(null)
    const [isDarkMode, setIsDarkMode] = useState(true)
-   const [isHovering, setIsHovering] = useState(false)
    const [textValue, setTextValue] = useState("")
    const [selectedCurrency1, setSelectedCurrency1] = useState(currencies[0])
    const [selectedCurrency2, setSelectedCurrency2] = useState(currencies[1])
@@ -40,65 +34,44 @@ function App() {
       document.body.setAttribute('data-dark-mode', isDarkMode ? 'true' : 'false');
    }, [isDarkMode]);
 
+   const { dataArray, dateArray, highest, lowest } = useMemo(() => {
+      const tempDataArray = [];
+      const tempDateArray = [];
+      let tempHighest = 0;
+      let tempLowest = Infinity;
 
+      let dateFirst = new Date(date);
+      dateFirst.setDate(dateFirst.getDate() - 31);
+      let workingDate = dateFirst;
 
-   let darkModeIconStatus = null
+      for (let i = 0; i < 31; i++) {
+         workingDate.setDate(workingDate.getDate() + 1);
+         let dateISO = workingDate.toISOString().split('T')[0];
 
-   const dataArray = []
-   const dateArray = []
+         let value = data.response[dateISO][selectedCurrency2];
+         if (isSwitched) {
+            value = 1 / value;
+         }
+         tempDataArray.push(value);
 
+         if (value > tempHighest) {
+            tempHighest = value;
+         }
+         if (value < tempLowest) {
+            tempLowest = value;
+         }
 
-
-
-
-
-
-
-
-   let highest = 0
-   let lowest = Infinity
-
-   let dateFirst = new Date(date)
-   dateFirst.setDate(dateFirst.getDate() - 31);
-
-   let workingDate = dateFirst;
-
-   for (let i = 0; i < 31; i++) {
-
-      workingDate.setDate(workingDate.getDate() + 1);
-      let dateISO = workingDate.toISOString().split('T')[0].toString();
-
-      let value = data.response[dateISO][selectedCurrency2]
-
-      if (isSwitched) {
-         //value = data.response[dateISO][selectedCurrency1]
-         console.log("XXXXXXXXXXXXXXXXXXXX")
-         dataArray.push(
-            (1 / value)
-         )
-      } else {
-         dataArray.push(
-            value
-         )
+         let formattedDate = dateISO.slice(5);
+         tempDateArray.push(formattedDate);
       }
 
-      console.log("VALUE " + value)
-      if (value > highest) {
-         highest = value
-      }
-      if (value < lowest) {
-         lowest = value
-      }
-
-      let formattedDate = dateISO.slice(5)
-      dateArray.push(formattedDate)
-      /*
-            console.log("dateISO " + dateISO)
-            console.log("workingDate " + workingDate)
-      */
-   }
-
-
+      return {
+         dataArray: tempDataArray,
+         dateArray: tempDateArray,
+         highest: tempHighest,
+         lowest: tempLowest,
+      };
+   }, [data, date, selectedCurrency2, isSwitched]);
 
    /*
       const symbols = "EUR,USD,GBP,CHF,CZK,DKK,HUF,NOK,PLN,RON,SEK,RUB,JPY,CNY,BTC,ETH"
@@ -166,25 +139,6 @@ function App() {
    }, [date])
 */
 
-
-
-   if (loading) return (<div>Loading</div>)
-   if (error) return (<div>Error: {error.message}</div>)
-
-   //setDate([])
-
-   let first = parseFloat(dataArray[0]);
-   let latest = parseFloat(dataArray[dataArray.length - 1]);
-
-   let trend = (1 - (first / latest)) * 100
-   let trendWording = trend > 0 ? "gestiegen" : "gefallen"
-   console.log(`Der Kurs von ${selectedCurrency2} ist im Verhältnis zu ${selectedCurrency1} um ${trend.toFixed(4)}% gestiegen`)
-
-   /*
-      console.log("LATEST: " + latest)
-      console.log("formattedDate: " + dateArray)
-      console.log(data.response[date][selectedCurrency2])
-   */
    const combinedData = useMemo(() => ({
       labels: dateArray,
       datasets: [
@@ -198,19 +152,19 @@ function App() {
             pointBorderColor: "#fff",*/
          }
       ],
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }), [dataArray]);
+   }), [dataArray, dateArray]);
+
+   if (loading) return (<div>Loading</div>)
+   if (error) return (<div>Error: {error.message}</div>)
+
+   /*
+      console.log("LATEST: " + latest)
+      console.log("formattedDate: " + dateArray)
+      console.log(data.response[date][selectedCurrency2])
+   */
 
    function switchMode() {
       setIsDarkMode((prev) => !prev)
-   }
-
-   function handleMouseEnter() {
-      setIsHovering(true)
-   }
-
-   function handleMouseLeave() {
-      setIsHovering(false)
    }
 
    function handleTextField(e) {
@@ -218,12 +172,8 @@ function App() {
    }
 
    function handleCurrencies(i, value) {
-      if (i == 1) {
-         setSelectedCurrency1(value)
-      }
-      if (i == 2) {
-         setSelectedCurrency2(value)
-      }
+      if (i == 1) setSelectedCurrency1(value)
+      if (i == 2) setSelectedCurrency2(value)
    }
 
    function currencySwitch() {
@@ -234,50 +184,23 @@ function App() {
       setIsSwitched((prev) => !prev)
    }
 
+   let first = parseFloat(dataArray[0]);
+   let latest = parseFloat(dataArray[dataArray.length - 1]);
 
-   if (isDarkMode) {
-      if (isHovering) {
-         darkModeIconStatus = 0
-      } else {
-         darkModeIconStatus = 1
-      }
-   } else if (isHovering) {
-      darkModeIconStatus = 2
-   } else {
-      darkModeIconStatus = 3
-   }
-
-
-   // dark-hover    dark    light-hover   light
-
-   const icons = [
-      { Component: SunFullIcon },
-      { Component: SunLineIcon },
-      { Component: MoonFullIcon },
-      { Component: MoonLineIcon },
-   ];
-
-   const iconArray = icons.map(({ Component }) => (
-      <Component
-         key={Component.name}
-         onClick={switchMode}
-         onMouseEnter={handleMouseEnter}
-         onMouseLeave={handleMouseLeave}
-      />
-   ));
 
    let textValue2 = parseFloat(textValue.replace(',', '.')) * latest
-   console.log(textValue + " " + latest)
+   //console.log(textValue + " " + latest)
    //console.log(darkModeIconStatus)
    return (
       <>
-         <div className="icon-container">
-            {iconArray[darkModeIconStatus]}
-         </div>
+         <Title />
+
+         <DarkmodeToggle
+            isDarkMode={isDarkMode}
+            switchMode={switchMode}
+         />
 
          <div className="container">
-
-            <Title />
 
             <Card key="1" width="4" height="800" style={{ borderRadius: "64px 64px 8px 8px" }}>
                <Graph
@@ -330,8 +253,8 @@ function App() {
                <Trend
                   selectedCurrency1={selectedCurrency1}
                   selectedCurrency2={selectedCurrency2}
-                  trend={trend}
-                  trendWording={trendWording}
+                  first={first}
+                  latest={latest}
                />
             </Card>
 
