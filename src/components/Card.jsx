@@ -1,4 +1,3 @@
-
 export default function Card({ children, width, height = 220, background, style }) {
 
    return (
