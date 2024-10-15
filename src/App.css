@@ -19,33 +19,19 @@
 /*
 https://www.realtimecolors.com/?colors=262c27-f0f1f5-cad2d8-039b91-97d4ed&fonts=Inter-Inter
 
-:root[data-theme="light"] {
-  --text: #262c27;
-  --background: #f0f1f5;
-  --primary: #cad2d8;
-  --secondary: #039b91;
-  --accent: #97d4ed;
-}
-:root[data-theme="dark"] {
-  --text: #d3d9d4;
-  --background: #0a0b0f;
-  --primary: #272f35;
-  --secondary: #64fcf2;
-  --accent: #125068;
-}
 */
 
 
 [data-dark-mode="false"] {
    --bg: #D3D9D4;
-   --main: #9fa7a6;
+   --font: white;
+   --main: #8a8d90;
    --secondary: #2E3944;
    --ternary: #748D92;
-   --font: #2E3944;
    --panel: #518b98;
-   --highlight-font: #ffffff;
-   --highlight: #124E66;
-   --highlight-neon: #67c1bb;
+   --highlight-font: #00ffee;
+   --highlight: #0A3A5A;
+   --highlight-neon: #579c97;
 
    transition: background-color 0.15s;
 }
@@ -57,7 +43,7 @@ https://www.realtimecolors.com/?colors=262c27-f0f1f5-cad2d8-039b91-97d4ed&fonts=
    --ternary: #748D92;
    --font: #D3D9D4;
    --panel: #52748e;
-   --highlight-font: #66FCF1;
+   --highlight-font: var(--highlight-neon);
    --highlight: #124E66;
    --highlight-neon: #66FCF1;
 
@@ -74,11 +60,9 @@ body {
    flex-direction: column;
    flex-wrap: nowrap;
    justify-content: space-evenly;
-   margin-top: 16px;
-   margin-bottom: 64px;
 }
 
-ul {
+select {
    list-style-type: none;
    margin: 0;
    padding: 0;
@@ -126,26 +110,22 @@ h6 {
 
 input {
    padding: 10px;
-   /* Innenabstand für das Input-Feld */
    border: none;
-   /* Rahmen des Input-Feldes entfernen */
    font-size: 16px;
-   /* Schriftgröße */
    outline: none;
-   /* Standard-Außenrahmen entfernen */
+   width: 320px;
 }
 
 select {
    padding: 10px;
    border: none;
    cursor: pointer;
+   background-color: var(--bg);
+   color: var(--font);
+   appearance: none;
+   -moz-appearance: none;
+   -webkit-appearance: none;
 }
-
-
-
-
-
-
 
 .title-header {
 
@@ -158,6 +138,13 @@ select {
 
 }
 
+.title-header h1 {
+   color: var(--secondary);
+
+   -webkit-user-select: none;
+   user-select: none;
+}
+
 .icon-container {
    transition: all 0.5s;
 }
@@ -167,31 +154,32 @@ select {
    justify-content: space-between;
    flex-direction: column;
    font-size: 26pt;
-   height: 58px;
-   border-radius: 16px 0 0 16px;
+   height: 60px;
+   font-family: monospace;
 }
 
-.currency-box span:nth-child(1) select {
-   /* Deine Stile für das zweite Input-Feld */
-   background-color: rgb(227, 227, 227);
+.currency-box span:nth-child(1) input {
+   background-color: rgba(0, 0, 0, 0.15);
+   color: var(--font);
+   border-radius: 16px 0 0 0;
 }
 
 .currency-box span:nth-child(2) input {
-   /* Deine Stile für das zweite Input-Feld */
-   background-color: var(--font);
-   /* Beispiel: Hintergrundfarbe */
-   color: var(--highlight);
+   background-color: rgba(0, 0, 0, 0.3);
+   color: var(--font);
+   border-radius: 0 0 0 16px;
+}
+
+.currency-box span:nth-child(1) select {
+   background-color: rgba(0, 0, 0, 0.25);
+   color: var(--font);
+   border-radius: 0 16px 0 0;
 }
 
 .currency-box span:nth-child(2) select {
-   /* Deine Stile für das zweite Input-Feld */
-   background-color: rgb(178, 178, 178);
-   /* Beispiel: Hintergrundfarbe */
-   color: var(--bg);
-}
-
-.currency-box select {
-   border-radius: 0 16px 16px 0;
+   background-color: rgba(0, 0, 0, 0.4);
+   color: var(--font);
+   border-radius: 0 0 16px 0;
 }
 
 .currency-span {
@@ -202,8 +190,31 @@ select {
 }
 
 .currency-span input {
-   text-align: center;
+   text-align: left;
 }
+
+@keyframes blink {
+
+   0%,
+   100% {
+      opacity: 1;
+   }
+
+   50% {
+      opacity: 0.5;
+   }
+}
+
+.blinking {
+   animation: blink 1s ease-in-out 3;
+}
+
+input::placeholder {
+   color: var(--font);
+   opacity: 0.4;
+}
+
+
 
 .dark-light-toggle {
    position: absolute;
@@ -222,6 +233,11 @@ select {
    grid-template-rows: auto auto;
    grid-column-gap: 0.6rem;
    grid-row-gap: 0.6rem;
+}
+
+.container h3 {
+   -webkit-user-select: none;
+   user-select: none;
 }
 
 #currency1 {
@@ -265,7 +281,7 @@ section:hover {
 
 .diagram {
    width: 93%;
-   height: 680px;
+   height: 600px;
    margin: auto;
    /*padding-bottom: 100px;*/
 

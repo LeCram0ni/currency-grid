@@ -155,9 +155,6 @@ function App() {
    }), [dataArray, dateArray]);
 
 
-
-
-
    if (loading) return (<div>Loading</div>)
    if (error) return (<div>Error: {error.message}</div>)
 
@@ -193,6 +190,8 @@ function App() {
       setIsSwitched((prev) => !prev)
    }
 
+   console.log(dataArray)
+
    return (
       <>
          <Title />
@@ -204,7 +203,7 @@ function App() {
 
          <div className="container">
 
-            <Card key="1" width="4" height="800" style={{ borderRadius: "64px 64px 8px 8px" }}>
+            <Card key="1" width="4" height="720" style={{ borderRadius: "64px 64px 8px 8px" }}>
                <Graph
                   selectedCurrency1={selectedCurrency1}
                   selectedCurrency2={selectedCurrency2}

@@ -4,7 +4,8 @@ export default function CurrencyBox({ textValue, textValue2, handleTextField, cu
 
    return (<>
       <div className="currency-box">
-         <span className="currency-span"><input value={textValue} onChange={handleTextField}></input>
+         <span className="currency-span">
+            <input value={textValue} placeholder="Wert eingeben" onChange={handleTextField} className="blinking"></input>
             <CurrencySelector
                no={1}
                currencySymbols={currencySymbols}
@@ -15,7 +16,8 @@ export default function CurrencyBox({ textValue, textValue2, handleTextField, cu
             />
          </span>
 
-         <span className="currency-span"><input value={textValue2 ? textValue2.toFixed(2) : 0} onChange={handleTextField} disabled></input>
+         <span className="currency-span">
+            <input value={textValue2 ? textValue2.toFixed(2) : 0} onChange={handleTextField} disabled></input>
             <CurrencySelector
                no={2}
                currencySymbols={currencySymbols}
