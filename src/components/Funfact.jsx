@@ -14,8 +14,6 @@ export default function Funfact() {
       "Viele Länder haben beim Euro-Wechselkurs einen festen Wechselkurs zur nationalen Währung, um Stabilität zu gewährleisten. Zum Beispiel wurde der Wechselkurs der D-Mark auf 1,95583 D-Mark pro Euro festgelegt.",
       "Die Einführung des Euro war eine gewaltige logistische Aufgabe, bei der unter strengsten Sicherheitsauflagen innerhalb weniger Wochen 15 Milliarden Banknoten und 52 Milliarden Münzen in Umlauf gebracht wurden.",
       "Im Jahr 2019 wurden rund 5210 Tonnen Baumwollfasern für den Druck von Euro-Banknoten verwendet.",
-      "Die Zahl der im Umlauf befindlichen Euro-Banknoten ist von 7,8 Milliarden im Jahr 2002 auf 27,6 Milliarden im November 2021 gestiegen. Im November 2021 belief sich ihr Wert Schätzungen zufolge auf insgesamt 1,5 Billionen Euro, gegenüber 246 Milliarden Euro im Jahr 2002."
-
    ]
 
    const initial = funfactsArray[getRandomIndex()]

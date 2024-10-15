@@ -3,9 +3,14 @@
    src: url("/Archivo.ttf");
 }
 
+@font-face {
+   font-family: 'JetBrainsMono';
+   src: url("/JetBrainsMono.ttf");
+}
+
 :root {
    font-size: 18pt;
-   font-family: Archivo, system-ui, Avenir, Helvetica, Arial, sans-serif;
+   font-family: JetBrainsMono, system-ui, Avenir, Helvetica, Arial, sans-serif;
    line-height: 1.75;
    font-weight: 400;
 
@@ -95,8 +100,6 @@ h6 {
 
 
 
-
-
 .input-select-container {
    display: flex;
    /* Flexbox für nebeneinander liegende Elemente */
@@ -120,8 +123,6 @@ select {
    padding: 10px;
    border: none;
    cursor: pointer;
-   background-color: var(--bg);
-   color: var(--font);
    appearance: none;
    -moz-appearance: none;
    -webkit-appearance: none;
@@ -155,7 +156,7 @@ select {
    flex-direction: column;
    font-size: 26pt;
    height: 60px;
-   font-family: monospace;
+   font-family: JetBrainsMono;
 }
 
 .currency-box span:nth-child(1) input {
@@ -245,7 +246,7 @@ input::placeholder {
 }
 
 .currency-select {
-   font-family: monospace;
+   font-family: JetBrainsMono;
    font-size: 14pt;
    -webkit-user-select: none;
    user-select: none;
@@ -280,24 +281,49 @@ section:hover {
 }
 
 .diagram {
-   width: 93%;
-   height: 600px;
+   width: 95%;
+   height: 610px;
    margin: auto;
    /*padding-bottom: 100px;*/
 
+}
+
+@keyframes rotate {
+   from {
+      transform: rotate(0deg);
+   }
+
+   to {
+      transform: rotate(360deg);
+   }
 }
 
 .emoji {
    font-size: 100pt;
    -webkit-user-select: none;
    user-select: none;
+   display: inline-block;
+   /* Ermöglicht das Drehen */
+   transition: all 1s ease;
+   /* Dauer der Animation */
+   transform-origin: 53.85% 50%;
+   /* 20 Pixel von der linken und oberen Kante */
+   cursor: pointer;
+   animation: rotate 20s linear infinite;
+   animation-fill-mode: forwards;
 }
+
+.emoji:hover {
+   filter: saturate(2)
+}
+
 
 .flex {
    display: flex;
    text-align: justify;
    align-items: center;
    justify-content: center;
+   flex-direction: column;
 }
 
 .line-height-small {
@@ -307,14 +333,28 @@ section:hover {
 
 .trend {
    margin: 0 48px 0 48px;
+   font-size: 22pt;
+   text-align: center;
 }
 
 .funfact {
    line-height: 1.4;
    padding: 64px;
-   font-size: 17pt;
+   font-size: 16pt;
    font-style: italic;
 
    -webkit-user-select: none;
    user-select: none;
+}
+
+.rising {
+   color: #19D00B;
+}
+
+.dropping {
+   color: rgb(187, 0, 0);
+}
+
+.highest {
+   line-height: 1.5;
 }

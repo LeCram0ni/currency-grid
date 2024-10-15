@@ -1,8 +1,8 @@
 export const currencies = [
-   "EUR", "USD", "GBP", "CHF", "CZK", "DKK", "HUF", "NOK", "PLN", "RON", "SEK", "RUB", "JPY", "CNY", "BTC", "ETH"
+   "EUR", "USD", "GBP", "CHF", "CZK", "DKK", "HUF", "NOK", "PLN", "RON", "SEK", "JPY", "CNY"
 ];
 
 export const currencySymbols = [
-   "€", "$", "£", "₣", "Kč", "kr", "Ft", "kr", "zł", "lei", "kr", "₽", "¥", "元", "₿", "Ξ"
+   "€", "$", "£", "₣", "Kč", "kr", "Ft", "kr", "zł", "lei", "kr", "¥", "元"
 ]
 

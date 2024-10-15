@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import { useState, useEffect, useMemo } from 'react'
 import Card from "./components/Card"
 import Graph from './components/Graph'
@@ -6,11 +6,11 @@ import Title from './components/Title'
 import CurrentRate from "./components/CurrentRate"
 import CurrencyBox from './components/CurrencyBox'
 import Trend from './components/Trend'
-import HighestRate from './components/HighestRate'
+import HighestLowestRate from './components/HighestLowestRate.jsx'
 import Funfact from './components/Funfact'
 
-import beacon from "./currencyBeaconResult.json"
-//import key from "./key.js"
+//import beacon from "./currencyBeaconResult.json"
+import key from "./key.js"
 
 import { currencies, currencySymbols } from "./currencies"
 
@@ -20,38 +20,99 @@ import DarkmodeToggle from './components/DarkmodeToggle'
 
 function App() {
 
-   const [data, setData] = useState(beacon)
-   const [today, setToday] = useState("2024-10-06")
+   const [data, setData] = useState(null)
    const [error, setError] = useState(null)
    const [loading, setLoading] = useState(null)
    const [isDarkMode, setIsDarkMode] = useState(true)
    const [textValue, setTextValue] = useState("")
-   const [selectedCurrency1, setSelectedCurrency1] = useState(currencies[0])
-   const [selectedCurrency2, setSelectedCurrency2] = useState(currencies[1])
-   const [isSwitched, setIsSwitched] = useState(false)
+   const [selectedCurrency1, setSelectedCurrency1] = useState(currencies[1])
+   const [selectedCurrency2, setSelectedCurrency2] = useState(currencies[2])
+
+   const startDate = getDate(true, true) // -31 Tage , ISO Format
+   const endDate = getDate(false, true) // heute , ISO Format
+
+   let storageKey = ""
+   const url = `https://api.currencybeacon.com/v1/timeseries?api_key=${key}&base=${selectedCurrency1}&start_date=${startDate}&end_date=${endDate}&symbols=${currencies}`;
+
+   function getDate(offset, iso) {
+      let date = new Date();
+      if (offset) {
+         date.setDate(date.getDate() - 31)
+      }
+      if (iso) {
+         date = date.toISOString().split('T')[0];
+      }
+      return date
+   }
 
    useEffect(() => {
       document.body.setAttribute('data-dark-mode', isDarkMode ? 'true' : 'false');
    }, [isDarkMode]);
 
+   useEffect(() => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      storageKey = `${endDate}-${selectedCurrency1}`;
+      const savedData = localStorage.getItem(storageKey);
+      if (savedData) {
+         setData(JSON.parse(savedData));
+         console.log("Daten aus dem LocalStorage geladen");
+      } else {
+         getApiData();
+      }
+   }, [selectedCurrency1, endDate]);
+
+   useEffect(() => {
+      if (data) {
+         const storageKey = `${endDate}-${selectedCurrency1}`; // gleicher dynamischer Schlüssel
+         localStorage.setItem(storageKey, JSON.stringify(data));
+         console.log(`Daten wurden unter dem Schlüssel ${storageKey} im LocalStorage gespeichert.`);
+      }
+   }, [data, selectedCurrency1, startDate, endDate]);
+
+   function getApiData() {
+      //setLoading(true)
+      fetch(url)
+         .then((res) => {
+            if (!res.ok) {
+               throw new Error("Fehlerhaftes fetch")
+            }
+            return res.json()
+         })
+         .then((dat) => {
+            console.log("API Aufruf")
+            setData(dat)
+            localStorage.setItem(storageKey, JSON.stringify(dat));
+            setLoading(false)
+         })
+         .catch((err) => {
+            setError(err)
+            setLoading(false)
+         })
+   }
+
+   useEffect(() => {
+      if (data) {
+         console.log(data);
+      }
+   }, [data]);
+
    const { dataArray, dateArray, highest, lowest } = useMemo(() => {
+      if (!data) {
+         return { dataArray: [], dateArray: [], highest: 0, lowest: Infinity };
+      }
+
       const tempDataArray = [];
       const tempDateArray = [];
       let tempHighest = 0;
       let tempLowest = Infinity;
 
-      let dateFirst = new Date(today);
-      dateFirst.setDate(dateFirst.getDate() - 31);
-      let workingDate = dateFirst;
+      let workingDate = getDate(true, false);
 
       for (let i = 0; i < 31; i++) {
          workingDate.setDate(workingDate.getDate() + 1);
          let dateISO = workingDate.toISOString().split('T')[0];
-
+         console.log(dateISO)
          let value = data.response[dateISO][selectedCurrency2];
-         if (isSwitched) {
-            value = 1 / value;
-         }
          tempDataArray.push(value);
 
          if (value > tempHighest) {
@@ -60,9 +121,11 @@ function App() {
          if (value < tempLowest) {
             tempLowest = value;
          }
-
-         let formattedDate = dateISO.slice(5);
-         tempDateArray.push(formattedDate);
+         let formattedDate = dateISO.slice(5); //Beschriftung für Graphen, z.B.: 09-20
+         let dayLegend = formattedDate.slice(3, 5)
+         let monthLegend = formattedDate.slice(0, 2)
+         let legend = dayLegend + "." + monthLegend + "."
+         tempDateArray.push(legend);
       }
 
       return {
@@ -71,73 +134,7 @@ function App() {
          highest: tempHighest,
          lowest: tempLowest,
       };
-   }, [data, today, selectedCurrency2, isSwitched]);
-
-   /*
-      const symbols = "EUR,USD,GBP,CHF,CZK,DKK,HUF,NOK,PLN,RON,SEK,RUB,JPY,CNY,BTC,ETH"
-   
-      const startDate = "2024-08-01"
-      const endDate = "2024-10-06"
-   */
-
-   /*
-   useEffect(() => {
-      fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${today}/${apiVersion}/${endpoint}.json`)
-         .then((res) => {
-            if (!res.ok) {
-               throw new Error("Fehlerhaftes fetch")
-            }
-            return res.json()
-         })
-         .then((dat) => {
-            console.log(dat[curr1][curr2])
-            setData(dat[curr1][curr2])
-            setLoading(false)
-         })
-         .catch((err) => {
-            setError(err)
-            setLoading(false)
-         })
-   }, []
-   )
-*/
-
-   /* LIVE FETCH
-      
-      const url = `https://api.currencybeacon.com/v1/timeseries?api_key=${key}&base=${curr1}&start_date=${startDate}&end_date=${endDate}&symbols=${symbols}`;
-   
-      useEffect(() => {
-         fetch(url)
-            .then((res) => {
-               if (!res.ok) {
-                  throw new Error("Fehlerhaftes fetch")
-               }
-               return res.json()
-            })
-            .then((dat) => {
-               console.log(dat)
-               setData(dat)
-               setLoading(false)
-            })
-            .catch((err) => {
-               setError(err)
-               setLoading(false)
-            })
-      }, []
-      )
-   
-   */
-
-   /*useEffect(() => {
-      let today = new Date();
-      today.setDate(today.getDate() - 6);
-      let isoDate = today.toISOString().split('T')[0].toString();
-      setDate(isoDate)
-
-      console.log("date1 " + today)
-
-   }, [today])
-*/
+   }, [data, selectedCurrency2]);
 
    const combinedData = useMemo(() => ({
       labels: dateArray,
@@ -154,20 +151,13 @@ function App() {
       ],
    }), [dataArray, dateArray]);
 
-
-   if (loading) return (<div>Loading</div>)
+   if (loading) return (<div></div>)
    if (error) return (<div>Error: {error.message}</div>)
 
    let first = parseFloat(dataArray[0]);
    let latest = parseFloat(dataArray[dataArray.length - 1]);
 
    let textValue2 = parseFloat(textValue.replace(',', '.')) * latest
-
-   /*
-      console.log("LATEST: " + latest)
-      console.log("formattedDate: " + dateArray)
-      console.log(data.response[today][selectedCurrency2])
-   */
 
    function switchMode() {
       setIsDarkMode((prev) => !prev)
@@ -187,10 +177,9 @@ function App() {
       let oldSecond = selectedCurrency2
       setSelectedCurrency1(oldSecond)
       setSelectedCurrency2(oldFirst)
-      setIsSwitched((prev) => !prev)
    }
 
-   console.log(dataArray)
+   //console.log(dataArray)
 
    return (
       <>
@@ -208,6 +197,9 @@ function App() {
                   selectedCurrency1={selectedCurrency1}
                   selectedCurrency2={selectedCurrency2}
                   combinedData={combinedData}
+                  highest={highest}
+                  lowest={lowest}
+                  isDarkMode={isDarkMode}
                />
             </Card>
 
@@ -216,7 +208,7 @@ function App() {
                   selectedCurrency1={selectedCurrency1}
                   selectedCurrency2={selectedCurrency2}
                   data={data}
-                  today={today}
+                  endDate={endDate}
                />
             </Card>
 
@@ -238,7 +230,7 @@ function App() {
             </Card>
 
             <Card key="5" width="1" >
-               <HighestRate
+               <HighestLowestRate
                   selectedCurrency1={selectedCurrency1}
                   selectedCurrency2={selectedCurrency2}
                   highest={highest}
