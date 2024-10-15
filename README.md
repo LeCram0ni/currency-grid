@@ -9,7 +9,7 @@ Currently, two official plugins are available:
 
 <img src="https://i.imgur.com/pZUk54I.jpeg"></img>
 
-<img>https://imgur.com/a/yP0WJEh</img>
+<img src="https://imgur.com/a/yP0WJEh"></img>
 
 
 1.Graph
