@@ -246,13 +246,6 @@ input::placeholder {
    text-align: justify;
 }
 
-.currency-select {
-   font-family: JetBrainsMono;
-   font-size: 14pt;
-   -webkit-user-select: none;
-   user-select: none;
-}
-
 
 section {
    display: grid;
@@ -371,6 +364,49 @@ section:hover {
 .width-quarter {
    grid-column: span 1;
 }
+
+.currency-select {
+   background-color: #2a2d34;
+   /* Eine dunkle Hintergrundfarbe, die sich vom restlichen Hintergrund abhebt */
+   color: #f0f0f0;
+   /* Helle Schriftfarbe für besseren Kontrast */
+   padding: 10px;
+   /* Mehr Platz für die Auswahl */
+   font-size: 16px;
+   /* Größere Schriftart */
+   border: none;
+   /* Standardrahmen entfernen */
+   border-radius: 4px;
+   /* Runde Ecken */
+   font-family: JetBrainsMono;
+   font-size: 14pt;
+   -webkit-user-select: none;
+   user-select: none;
+   outline: none;
+}
+
+.currency-select:hover {
+   background-color: var(--highlight) !important;
+}
+
+.currency-select option {
+   background-color: #2a2d34;
+   /* Hintergrundfarbe für die Optionen */
+   color: #f0f0f0;
+   /* Schriftfarbe für die Optionen */
+   padding: 10px;
+   /* Innenabstand der Optionselemente */
+}
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width:2265px) {
 
