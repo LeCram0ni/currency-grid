@@ -18,6 +18,8 @@
    text-align: center;
    width: 60%;
 
+   transition: all 0.1s;
+
 }
 
 
@@ -133,7 +135,7 @@ select {
    position: absolute;
    top: 0px;
    left: 0px;
-   margin-left: 96px;
+   margin-left: 48px;
    margin-top: 48px;
    fill: var(--highlight-neon);
 
@@ -231,9 +233,8 @@ input::placeholder {
 .container {
    display: grid;
    grid-template-columns: repeat(4, 1fr);
-   grid-template-rows: auto auto;
-   grid-column-gap: 0.6rem;
-   grid-row-gap: 0.6rem;
+   grid-template-rows: auto;
+   gap: 0.6rem;
 }
 
 .container h3 {
@@ -276,7 +277,7 @@ section:hover {
    color: var(--highlight-font);
 }
 
-.top-card {
+.funfact {
    padding: 12px;
 }
 
@@ -357,4 +358,467 @@ section:hover {
 
 .highest {
    line-height: 1.5;
+}
+
+.width-full {
+   grid-column: span 4;
+}
+
+.width-half {
+   grid-column: span 2;
+}
+
+.width-quarter {
+   grid-column: span 1;
+}
+
+@media (max-width:2265px) {
+
+   .top-card h4 {
+      font-size: 16pt;
+   }
+
+   .top-card h5 {
+      font-size: 14pt;
+   }
+
+   .title-header h1 {
+      font-size: 28pt;
+      left: 30px;
+   }
+}
+
+@media (max-width: 2084px) {
+   :root {
+      font-size: 15pt;
+   }
+
+   .trend {
+      font-size: 16pt;
+   }
+
+   input {
+      font-size: 21pt !important;
+      padding-left: 21px;
+   }
+
+   .funfact {
+      font-size: 14pt;
+   }
+
+   .title-header h1 {
+      font-size: 28pt;
+      left: 30px;
+   }
+
+
+
+   .icon-container svg {
+      margin: 64px 48 0 0px;
+   }
+
+
+   .top-card h4 {
+      font-size: 13pt;
+   }
+
+   .top-card h5 {
+      font-size: 12pt;
+   }
+
+
+}
+
+@media (max-width: 1770px) {
+
+   #card-1 {
+      order: 1;
+      height: 530px !important;
+   }
+
+   #card-2 {
+      order: 2;
+   }
+
+   #card-3 {
+      order: 4;
+   }
+
+   #card-4 {
+      order: 3;
+   }
+
+   #card-5 {
+      order: 5;
+   }
+
+   #card-6 {
+      order: 6;
+   }
+
+   #card-7 {
+      order: 7;
+   }
+
+   .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+
+   .title-header {
+      margin: 0 !important;
+      position: relative;
+   }
+
+   .icon-container svg {
+      margin: 0 !important;
+      position: relative;
+   }
+
+   .dark-light-toggle {
+      width: 36px;
+      height: 34px;
+   }
+
+   h1 {
+      font-size: 28pt;
+      padding-bottom: 16px;
+   }
+
+
+   :root {
+      font-size: 20pt;
+      margin-bottom: 32px;
+      margin-top: 16px;
+   }
+
+   .trend {
+      font-size: 24pt;
+   }
+
+   input {
+      font-size: 22pt !important;
+      padding-left: 21px;
+   }
+
+   .mobile-full {
+      grid-column: span 2;
+      /* Vollbreite in mobilen Ansichten */
+   }
+
+   .mobile-half {
+      grid-column: span 1;
+      /* Halbe Breite in mobilen Ansichten */
+   }
+
+   .container {
+      grid-template-columns: repeat(2, 1fr) !important;
+      grid-template-rows: auto;
+   }
+
+   .funfact {
+      padding: 0;
+      padding: 64px;
+      margin: 0;
+      font-size: 16pt;
+   }
+
+   .diagram {
+      height: 455px;
+   }
+
+   h3 {
+      margin-top: 0;
+   }
+
+   .top-card h4 {
+      font-size: 18pt;
+   }
+
+   .top-card h5 {
+      font-size: 18pt;
+   }
+}
+
+/* Media Queries */
+@media (max-width: 1280px) {
+
+   :root {
+      margin-bottom: 64px;
+      font-size: 18pt;
+   }
+
+   .mobile-full {
+      grid-column: span 2;
+      /* Vollbreite in mobilen Ansichten */
+   }
+
+   .mobile-half {
+      grid-column: span 1;
+      /* Halbe Breite in mobilen Ansichten */
+   }
+
+   .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+
+   .title-header {
+      margin: 0 !important;
+      position: relative;
+   }
+
+   .icon-container svg {
+      margin: 0 !important;
+      position: relative;
+   }
+
+   .dark-light-toggle {
+      width: 36px;
+      height: 34px;
+   }
+
+   h1 {
+      font-size: 28pt;
+      padding-bottom: 16px;
+   }
+
+   .diagram {
+      height: 450px;
+   }
+
+   .funfact {
+      padding: 48px;
+      font-size: 16pt;
+   }
+
+   .top-card h4 {
+      font-size: 16pt;
+   }
+
+   .top-card h5 {
+      font-size: 14pt;
+   }
+
+   .trend {
+      font-size: 24pt;
+   }
+
+}
+
+
+@media (max-width: 1024px) {
+   :root {
+      width: 100%;
+      margin-top: 0;
+   }
+
+   body {
+      margin: 16px;
+   }
+
+   .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+
+   .title-header {
+      margin: 0 !important;
+      position: relative;
+   }
+
+   .icon-container svg {
+      margin: 0 !important;
+      position: relative;
+   }
+
+   .dark-light-toggle {
+      width: 36px;
+      height: 34px;
+   }
+
+   h1 {
+      font-size: 28pt;
+      padding-bottom: 16px;
+   }
+
+   .diagram {
+      height: 450px;
+   }
+
+
+   .container h3 {
+      padding: 0;
+   }
+
+}
+
+
+@media (max-width: 768px) {
+   :root {
+      width: 100%;
+      font-size: 13pt;
+   }
+
+   .container {
+      grid-template-rows: auto;
+   }
+
+   .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+
+   .title-header {
+      margin: 0 !important;
+      position: relative;
+   }
+
+   .icon-container svg {
+      margin: 0 !important;
+      position: relative;
+   }
+
+   .dark-light-toggle {
+      width: 36px;
+      height: 34px;
+   }
+
+   h1 {
+      font-size: 28pt;
+      padding-bottom: 16px;
+   }
+
+   input,
+   select {
+      font-size: 14px;
+      /* Schriftgröße für Eingaben und Auswahl reduzieren */
+   }
+
+   .top-card h4,
+   .top-card h5 {
+      font-size: 11pt;
+   }
+
+   .funfact {
+      font-size: 12pt;
+   }
+
+   .trend {
+      font-size: 15pt;
+   }
+
+}
+
+
+@media (max-width: 480px) {
+   :root {
+      width: 100%;
+      font-size: 20pt;
+   }
+
+   h1 {
+      font-size: 18pt;
+      padding-bottom: 16px;
+   }
+
+
+   .top-card h4,
+   .top-card h5 {
+      font-size: 16pt;
+   }
+
+
+   input,
+   select {
+      width: 100%;
+      /* Volle Breite der Eingaben */
+      font-size: 12px;
+      /* Schriftgröße für Eingaben weiter reduzieren */
+   }
+
+   .container {
+      grid-template-rows: auto;
+      grid-template-columns: repeat(2, 1fr) !important;
+
+   }
+
+
+   .dark-light-toggle {
+      width: 41px;
+      height: 27px;
+   }
+
+   #card-1,
+   #card-2,
+   #card-3,
+   #card-4,
+   #card-5,
+   #card-6,
+   #card-7 {
+      grid-column: span 2 !important;
+   }
+
+   .funfact {
+      padding: 31px;
+      font-size: 11pt;
+   }
+
+   .emoji {
+      font-size: 92pt;
+   }
+
+   input {
+      font-size: 16pt !important;
+      padding-left: 18px;
+      border-radius: 0 !important;
+   }
+
+   select {
+      padding: 0;
+      padding-left: 12px;
+      width: 140px;
+      border-radius: 0 !important;
+   }
+
+   .title-header {
+      margin: 0 !important;
+      position: relative;
+   }
+
+   .icon-container svg {
+      margin: 0 !important;
+      position: relative;
+   }
+
+   .trend {
+      font-size: 25pt;
+   }
+
+
+}
+
+@media (max-width: 352px) {
+   body {
+      margin: 0;
+   }
+
+   .title-header {
+      padding: 0 !important;
+      margin: 0 !important;
+   }
+
+   .title-header h1 {
+      padding: 0 !important;
+      margin: 0 !important;
+   }
+
+   .nav-bar {
+      margin: 16px;
+   }
+
 }

@@ -1,11 +1,10 @@
-export default function Card({ children, width, height = 220, background, style }) {
+export default function Card({ children, height = 220, background, style, className, id }) {
 
    return (
-      <section
+      <section className={className} id={id}
 
          style={{
             background: background,
-            gridColumn: `span ${width}`,
             height: `${height}px`,
             ...style
          }}>

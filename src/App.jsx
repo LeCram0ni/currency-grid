@@ -183,16 +183,17 @@ function App() {
 
    return (
       <>
-         <Title />
+         <div className="nav-bar">
+            <Title />
 
-         <DarkmodeToggle
-            isDarkMode={isDarkMode}
-            switchMode={switchMode}
-         />
-
+            <DarkmodeToggle
+               isDarkMode={isDarkMode}
+               switchMode={switchMode}
+            />
+         </div>
          <div className="container">
 
-            <Card key="1" width="4" height="720" style={{ borderRadius: "64px 64px 8px 8px" }}>
+            <Card className="width-full mobile-full" id="card-1" height="720" style={{ borderRadius: "64px 64px 8px 8px" }}>
                <Graph
                   selectedCurrency1={selectedCurrency1}
                   selectedCurrency2={selectedCurrency2}
@@ -203,7 +204,7 @@ function App() {
                />
             </Card>
 
-            <Card key="2" width="1" background={isDarkMode ? "var(--highlight)" : "var(--highlight-neon)"}>
+            <Card className="width-quarter mobile-half" id="card-3" background={isDarkMode ? "var(--highlight)" : "var(--highlight-neon)"}>
                <CurrentRate
                   selectedCurrency1={selectedCurrency1}
                   selectedCurrency2={selectedCurrency2}
@@ -212,7 +213,7 @@ function App() {
                />
             </Card>
 
-            <Card key="3" width="2">
+            <Card className="width-half mobile-full" id="card-2">
                <CurrencyBox
                   textValue={textValue}
                   textValue2={textValue2}
@@ -225,11 +226,11 @@ function App() {
                />
             </Card>
 
-            <Card key="4" width="1" >
+            <Card className="width-quarter mobile-half" id="card-4"  >
                <CurrencySwitch currencySwitch={currencySwitch} />
             </Card>
 
-            <Card key="5" width="1" >
+            <Card className="width-quarter mobile-half" id="card-5" >
                <HighestLowestRate
                   selectedCurrency1={selectedCurrency1}
                   selectedCurrency2={selectedCurrency2}
@@ -238,11 +239,11 @@ function App() {
                />
             </Card>
 
-            <Card key="6" width="2" >
+            <Card className="width-half mobile-full" id="card-7" >
                <Funfact />
             </Card>
 
-            <Card key="7" width="1" >
+            <Card className="width-quarter mobile-half" id="card-6"  >
                <Trend
                   selectedCurrency1={selectedCurrency1}
                   selectedCurrency2={selectedCurrency2}
