@@ -1,7 +1,7 @@
 export default function CurrentRate({ selectedCurrency1, selectedCurrency2, endDate, data }) {
 
    if (!data || !data.response) {
-      return <div>Loading...</div>; // Handle loading or null data
+      return <div>Loading...</div>;
    }
 
    let day = endDate.slice(8, 10)

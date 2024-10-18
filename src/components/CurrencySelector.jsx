@@ -1,4 +1,3 @@
-
 export default function CurrencySelector({ currencies, currencySymbols, no, selectedCurrency1, selectedCurrency2, currencyHandler }) {
    let value
 

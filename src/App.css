@@ -1,11 +1,52 @@
-@font-face {
-   font-family: 'Archivo';
-   src: url("/Archivo.ttf");
+:root,
+body {
+   margin: auto
+}
+
+.dark-light-toggle,
+.title-header {
+   position: absolute;
+   top: 0;
+   fill: var(--secondary)
+}
+
+.emoji,
+select {
+   cursor: pointer
+}
+
+#card-3 .result,
+.currency-select:hover,
+.result,
+.title-header h1 {
+   color: var(--secondary)
+}
+
+@keyframes blink {
+
+   0%,
+   to {
+      opacity: 1
+   }
+
+   50% {
+      opacity: .5
+   }
+}
+
+@keyframes rotate {
+   0% {
+      transform: rotate(0)
+   }
+
+   to {
+      transform: rotate(360deg)
+   }
 }
 
 @font-face {
-   font-family: 'JetBrainsMono';
-   src: url("/JetBrainsMono.ttf");
+   font-family: JetBrainsMono;
+   src: url("/JetBrainsMono.ttf")
 }
 
 :root {
@@ -13,780 +54,614 @@
    font-family: JetBrainsMono, system-ui, Avenir, Helvetica, Arial, sans-serif;
    line-height: 1.75;
    font-weight: 400;
-
-   margin: auto;
    text-align: center;
    width: 60%;
-
-   transition: all 0.1s;
-
+   transition: .1s
 }
 
-
-/*
-https://www.realtimecolors.com/?colors=262c27-f0f1f5-cad2d8-039b91-97d4ed&fonts=Inter-Inter
-
-*/
-
-
-[data-dark-mode="false"] {
-   --bg: #D3D9D4;
-   --font: white;
-   --main: #8a8d90;
-   --secondary: #2E3944;
-   --ternary: #748D92;
-   --panel: #518b98;
-   --highlight-font: #00ffee;
-   --highlight: #0A3A5A;
-   --highlight-neon: #579c97;
-
-   transition: background-color 0.15s;
+#currency1,
+.flex {
+   text-align: justify
 }
 
-[data-dark-mode="true"] {
+[data-dark-mode=false] {
+   --bg: #f0f1f5;
+   --font: #262c27;
+   --main: #d7dde4;
+   --secondary: #0092cc;
+   --highlight: #97e2ff;
+   transition: background-color .15s
+}
+
+[data-dark-mode=true] {
    --bg: #0B0C10;
-   --main: #272f35;
-   --secondary: #2E3944;
-   --ternary: #748D92;
    --font: #D3D9D4;
-   --panel: #52748e;
-   --highlight-font: var(--highlight-neon);
+   --main: #272f35;
+   --secondary: #66FCF1;
    --highlight: #124E66;
-   --highlight-neon: #66FCF1;
+   transition: background-color .5s
+}
 
-   transition: background-color 0.5s;
+.currency-box input,
+body {
+   display: flex;
+   flex-direction: column
 }
 
 body {
    color: var(--font);
    background-color: var(--bg);
-   margin: auto;
    min-width: 320px;
    min-height: 100vh;
-   display: flex;
-   flex-direction: column;
    flex-wrap: nowrap;
-   justify-content: space-evenly;
+   justify-content: space-evenly
+}
+
+#card-3 {
+   background: var(--highlight)
+}
+
+input,
+select {
+   padding: 10px;
+   border: 0
 }
 
 select {
    list-style-type: none;
    margin: 0;
-   padding: 0;
+   appearance: none;
+   -moz-appearance: none;
+   -webkit-appearance: none
 }
 
 h1,
 h2,
-h3,
 h4,
 h5,
 h6 {
    margin: 0;
-   padding: 0;
+   padding: 0
 }
 
 h1 {
-   font-size: 36pt;
+   font-size: 36pt
 }
 
 h3 {
-   margin-top: -27px;
-   padding: 6px;
+   margin: -27px 0 0;
+   padding: 6px
 }
 
 h6 {
-   font-size: 11pt;
+   font-size: 11pt
 }
-
-
-
-
 
 .input-select-container {
    display: flex;
-   /* Flexbox für nebeneinander liegende Elemente */
    border: 2px solid #ccc;
-   /* Rahmen für den Container */
    border-radius: 5px;
-   /* Abgerundete Ecken */
-   overflow: hidden;
-   /* Verhindert, dass die Ecken des Inputs und des Selects überstehen */
+   overflow: hidden
 }
 
 input {
-   padding: 10px;
-   border: none;
    font-size: 16px;
-   outline: none;
-   width: 320px;
-}
-
-select {
-   padding: 10px;
-   border: none;
-   cursor: pointer;
-   appearance: none;
-   -moz-appearance: none;
-   -webkit-appearance: none;
+   outline: 0;
+   width: 320px
 }
 
 .title-header {
-
-   position: absolute;
-   top: 0px;
-   left: 0px;
+   left: 0;
    margin-left: 48px;
-   margin-top: 48px;
-   fill: var(--highlight-neon);
-
+   margin-top: 48px
 }
 
+.container h3,
 .title-header h1 {
-   color: var(--secondary);
+   -webkit-user-select: none;
+   user-select: none
+}
 
+.emoji,
+.funfact {
    -webkit-user-select: none;
    user-select: none;
 }
 
 .icon-container {
-   transition: all 0.5s;
+   transition: .5s
 }
 
 .currency-box input {
-   display: flex;
    justify-content: space-between;
-   flex-direction: column;
    font-size: 26pt;
    height: 60px;
-   font-family: JetBrainsMono;
+   font-family: JetBrainsMono
 }
 
-.currency-box span:nth-child(1) input {
-   background-color: rgba(0, 0, 0, 0.15);
+.currency-box span:first-child input {
+   background-color: rgba(0, 0, 0, .15);
    color: var(--font);
-   border-radius: 16px 0 0 0;
+   border-radius: 16px 0 0
 }
 
 .currency-box span:nth-child(2) input {
-   background-color: rgba(0, 0, 0, 0.3);
+   background-color: rgba(0, 0, 0, .3);
    color: var(--font);
-   border-radius: 0 0 0 16px;
+   border-radius: 0 0 0 16px
 }
 
-.currency-box span:nth-child(1) select {
-   background-color: rgba(0, 0, 0, 0.25);
+.currency-box span:first-child select {
+   background-color: rgba(0, 0, 0, .25);
    color: var(--font);
-   border-radius: 0 16px 0 0;
+   border-radius: 0 16px 0 0
 }
 
 .currency-box span:nth-child(2) select {
-   background-color: rgba(0, 0, 0, 0.4);
+   background-color: rgba(0, 0, 0, .4);
    color: var(--font);
-   border-radius: 0 0 16px 0;
+   border-radius: 0 0 16px
 }
 
 .currency-span {
    display: flex;
    flex-direction: row;
    align-items: stretch;
-   justify-content: center;
+   justify-content: center
 }
 
 .currency-span input {
-   text-align: left;
-}
-
-@keyframes blink {
-
-   0%,
-   100% {
-      opacity: 1;
-   }
-
-   50% {
-      opacity: 0.5;
-   }
+   text-align: left
 }
 
 .blinking {
-   animation: blink 1s ease-in-out 3;
+   animation: 1s ease-in-out 3 blink
 }
 
 input::placeholder {
    color: var(--font);
-   opacity: 0.4;
+   opacity: .4
 }
 
-
-
 .dark-light-toggle {
-   position: absolute;
    width: 42px;
    height: 42px;
-   top: 0px;
-   right: 0px;
+   right: 0;
    cursor: pointer;
-   margin: 64px;
-   fill: var(--highlight-neon);
+   margin: 64px
 }
 
 .container {
    display: grid;
    grid-template-columns: repeat(4, 1fr);
    grid-template-rows: auto;
-   gap: 0.6rem;
+   gap: .6rem
 }
-
-.container h3 {
-   -webkit-user-select: none;
-   user-select: none;
-}
-
-#currency1 {
-   text-align: justify;
-}
-
 
 section {
    display: grid;
-   /*margin: 6px;*/
    background: var(--main);
    border-radius: 16px;
-   /*height: 300px;*/
    align-content: center;
-
+   box-shadow: 0 1px 15px rgba(0, 0, 0, .08);
    background-size: cover;
    background-repeat: no-repeat;
    background-position: center;
-   transition: all 0.3s;
+   transition: .3s
 }
 
 section:hover {
    filter: brightness(1.05);
-   transition: all 0.3s;
-}
-
-.result {
-   color: var(--highlight-font);
-}
-
-.funfact {
-   padding: 12px;
+   transition: .3s
 }
 
 .diagram {
    width: 95%;
    height: 610px;
-   margin: auto;
-   /*padding-bottom: 100px;*/
-
-}
-
-@keyframes rotate {
-   from {
-      transform: rotate(0deg);
-   }
-
-   to {
-      transform: rotate(360deg);
-   }
+   margin: auto
 }
 
 .emoji {
    font-size: 100pt;
-   -webkit-user-select: none;
    user-select: none;
    display: inline-block;
-   /* Ermöglicht das Drehen */
-   transition: all 1s ease;
-   /* Dauer der Animation */
-   transform-origin: 53.85% 50%;
-   /* 20 Pixel von der linken und oberen Kante */
-   cursor: pointer;
-   animation: rotate 20s linear infinite;
-   animation-fill-mode: forwards;
+   transition: 1s;
+   animation: 20s linear infinite forwards rotate
 }
 
 .emoji:hover {
    filter: saturate(2)
 }
 
-
 .flex {
    display: flex;
-   text-align: justify;
    align-items: center;
    justify-content: center;
-   flex-direction: column;
+   flex-direction: column
 }
 
 .line-height-small {
    line-height: 1.4;
-   font-size: 17pt;
+   font-size: 17pt
 }
 
 .trend {
-   margin: 0 48px 0 48px;
+   margin: 0 48px;
    font-size: 22pt;
-   text-align: center;
+   text-align: center
 }
 
 .funfact {
    line-height: 1.4;
-   padding: 64px;
+   padding-left: 64px;
+   padding-right: 64px;
    font-size: 16pt;
    font-style: italic;
-
-   -webkit-user-select: none;
-   user-select: none;
+   user-select: none
 }
 
 .rising {
-   color: #19D00B;
+   color: #19d00b
 }
 
 .dropping {
-   color: rgb(187, 0, 0);
+   color: #b00
 }
 
 .highest {
-   line-height: 1.5;
+   line-height: 1.5
 }
 
 .width-full {
-   grid-column: span 4;
+   grid-column: span 4
 }
 
 .width-half {
-   grid-column: span 2;
+   grid-column: span 2
 }
 
 .width-quarter {
-   grid-column: span 1;
+   grid-column: span 1
 }
 
 .currency-select {
-   background-color: #2a2d34;
-   /* Eine dunkle Hintergrundfarbe, die sich vom restlichen Hintergrund abhebt */
-   color: #f0f0f0;
-   /* Helle Schriftfarbe für besseren Kontrast */
-   padding: 10px;
-   /* Mehr Platz für die Auswahl */
-   font-size: 16px;
-   /* Größere Schriftart */
-   border: none;
-   /* Standardrahmen entfernen */
+   border: 0;
    border-radius: 4px;
-   /* Runde Ecken */
    font-family: JetBrainsMono;
    font-size: 14pt;
    -webkit-user-select: none;
    user-select: none;
-   outline: none;
+   outline: 0
 }
 
 .currency-select:hover {
-   background-color: var(--highlight) !important;
+   background-color: var(--highlight) !important
 }
 
+.currency-select,
 .currency-select option {
    background-color: #2a2d34;
-   /* Hintergrundfarbe für die Optionen */
    color: #f0f0f0;
-   /* Schriftfarbe für die Optionen */
-   padding: 10px;
-   /* Innenabstand der Optionselemente */
+   padding: 10px
 }
 
-
-
-
-
-
-
-
-
-
+.currency-box input:active {
+   background-color: var(--highlight)
+}
 
 @media (max-width:2265px) {
-
-   .top-card h4 {
-      font-size: 16pt;
-   }
-
-   .top-card h5 {
-      font-size: 14pt;
-   }
-
-   .title-header h1 {
-      font-size: 28pt;
-      left: 30px;
-   }
-}
-
-@media (max-width: 2084px) {
    :root {
-      font-size: 15pt;
+      font-size: 15pt
    }
 
+   .top-card h4,
    .trend {
-      font-size: 16pt;
+      font-size: 16pt
    }
 
    input {
       font-size: 21pt !important;
-      padding-left: 21px;
+      padding-left: 21px
    }
 
-   .funfact {
-      font-size: 14pt;
+   .funfact,
+   .top-card h5 {
+      font-size: 14pt
    }
 
    .title-header h1 {
       font-size: 28pt;
-      left: 30px;
+      left: 30px
    }
+}
 
-
-
+@media (max-width:2084px) {
    .icon-container svg {
-      margin: 64px 48 0 0px;
+      margin: 64px 48 0 0
    }
-
 
    .top-card h4 {
-      font-size: 13pt;
+      font-size: 13pt
    }
 
    .top-card h5 {
-      font-size: 12pt;
+      font-size: 12pt
    }
 
-
+   .funfact {
+      font-size: 16pt
+   }
 }
 
-@media (max-width: 1770px) {
-
+@media (max-width:1770px) {
    #card-1 {
       order: 1;
-      height: 530px !important;
+      height: 530px !important
    }
 
    #card-2 {
-      order: 2;
+      order: 2
    }
 
    #card-3 {
-      order: 4;
+      order: 3
    }
 
    #card-4 {
-      order: 3;
+      order: 4
    }
 
    #card-5 {
-      order: 5;
+      order: 5
    }
 
    #card-6 {
-      order: 6;
+      order: 6
    }
 
    #card-7 {
-      order: 7;
+      order: 7
    }
 
    .nav-bar {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: center
    }
 
+   .icon-container svg,
    .title-header {
       margin: 0 !important;
-      position: relative;
-   }
-
-   .icon-container svg {
-      margin: 0 !important;
-      position: relative;
+      position: relative
    }
 
    .dark-light-toggle {
       width: 36px;
-      height: 34px;
+      height: 34px
    }
 
    h1 {
       font-size: 28pt;
-      padding-bottom: 16px;
+      padding-bottom: 16px
    }
-
 
    :root {
       font-size: 20pt;
       margin-bottom: 32px;
-      margin-top: 16px;
+      margin-top: 16px
    }
 
    .trend {
-      font-size: 24pt;
+      font-size: 24pt
    }
 
    input {
       font-size: 22pt !important;
-      padding-left: 21px;
+      padding-left: 21px
    }
 
    .mobile-full {
-      grid-column: span 2;
-      /* Vollbreite in mobilen Ansichten */
+      grid-column: span 2
    }
 
    .mobile-half {
-      grid-column: span 1;
-      /* Halbe Breite in mobilen Ansichten */
+      grid-column: span 1
    }
 
    .container {
       grid-template-columns: repeat(2, 1fr) !important;
-      grid-template-rows: auto;
+      grid-template-rows: auto
    }
 
    .funfact {
-      padding: 0;
-      padding: 64px;
       margin: 0;
-      font-size: 16pt;
+      font-size: 20pt
    }
 
    .diagram {
-      height: 455px;
+      height: 455px
    }
 
    h3 {
-      margin-top: 0;
+      margin-top: 0
    }
 
-   .top-card h4 {
-      font-size: 18pt;
-   }
-
+   .top-card h4,
    .top-card h5 {
-      font-size: 18pt;
+      font-size: 18pt
    }
 }
 
-/* Media Queries */
-@media (max-width: 1280px) {
-
+@media (max-width:1330px) {
    :root {
       margin-bottom: 64px;
-      font-size: 18pt;
+      font-size: 18pt
    }
 
    .mobile-full {
-      grid-column: span 2;
-      /* Vollbreite in mobilen Ansichten */
+      grid-column: span 2
    }
 
    .mobile-half {
-      grid-column: span 1;
-      /* Halbe Breite in mobilen Ansichten */
-   }
-
-   .nav-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-   }
-
-   .title-header {
-      margin: 0 !important;
-      position: relative;
-   }
-
-   .icon-container svg {
-      margin: 0 !important;
-      position: relative;
-   }
-
-   .dark-light-toggle {
-      width: 36px;
-      height: 34px;
+      grid-column: span 1
    }
 
    h1 {
       font-size: 28pt;
-      padding-bottom: 16px;
-   }
-
-   .diagram {
-      height: 450px;
+      padding-bottom: 16px
    }
 
    .funfact {
-      padding: 48px;
-      font-size: 16pt;
+      padding-left: 128px;
+      padding-right: 128px;
+      font-size: clamp(.9rem, 2vw, 2rem)
    }
 
    .top-card h4 {
-      font-size: 16pt;
+      font-size: 20pt
    }
 
    .top-card h5 {
-      font-size: 14pt;
+      font-size: 17pt
    }
 
    .trend {
-      font-size: 24pt;
-   }
-
-}
-
-
-@media (max-width: 1024px) {
-   :root {
-      width: 100%;
-      margin-top: 0;
+      font-size: clamp(1.3rem, 2.2vw, 2.5rem)
    }
 
    body {
-      margin: 16px;
+      margin: 16px
    }
 
    .nav-bar {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: center
    }
 
+   .icon-container svg,
    .title-header {
       margin: 0 !important;
-      position: relative;
-   }
-
-   .icon-container svg {
-      margin: 0 !important;
-      position: relative;
+      position: relative
    }
 
    .dark-light-toggle {
       width: 36px;
-      height: 34px;
+      height: 34px
    }
 
-   h1 {
-      font-size: 28pt;
-      padding-bottom: 16px;
+   :root {
+      width: 100%;
+      margin-top: 0;
+      font-size: clamp(1.8rem, 2.6vw, 3rem)
    }
 
    .diagram {
-      height: 450px;
+      height: 450px
    }
-
 
    .container h3 {
-      padding: 0;
+      padding: 0
    }
-
 }
 
+@media (max-width:1024px) {
+   .funfact {
+      padding-left: 48px;
+      padding-right: 48px;
+      font-size: clamp(.9rem, 2.2vw, 2.5rem)
+   }
+}
 
-@media (max-width: 768px) {
+@media (max-width:768px) {
    :root {
       width: 100%;
-      font-size: 13pt;
+      font-size: clamp(1.2rem, 3.5vw, 4rem)
+   }
+
+   h6 {
+      font-size: clamp(.7rem, 2.2vw, 2.5rem)
    }
 
    .container {
-      grid-template-rows: auto;
+      grid-template-rows: auto
    }
 
    .nav-bar {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: center
    }
 
+   .icon-container svg,
    .title-header {
       margin: 0 !important;
-      position: relative;
-   }
-
-   .icon-container svg {
-      margin: 0 !important;
-      position: relative;
+      position: relative
    }
 
    .dark-light-toggle {
       width: 36px;
-      height: 34px;
+      height: 34px
    }
 
    h1 {
       font-size: 28pt;
-      padding-bottom: 16px;
+      padding-bottom: 16px
    }
 
    input,
    select {
-      font-size: 14px;
-      /* Schriftgröße für Eingaben und Auswahl reduzieren */
+      font-size: 14px
    }
 
    .top-card h4,
    .top-card h5 {
-      font-size: 11pt;
+      font-size: 11pt
    }
 
    .funfact {
-      font-size: 12pt;
+      font-size: clamp(1.1rem, 2.2vw, 2.5rem)
    }
 
    .trend {
-      font-size: 15pt;
+      font-size: clamp(1rem, 3vw, 3rem)
    }
-
 }
 
-
-@media (max-width: 480px) {
+@media (max-width:480px) {
    :root {
       width: 100%;
-      font-size: 20pt;
+      font-size: 20pt
    }
 
    h1 {
-      font-size: 18pt;
-      padding-bottom: 16px;
+      padding-bottom: 16px
    }
-
 
    .top-card h4,
    .top-card h5 {
-      font-size: 16pt;
+      font-size: 16pt
    }
 
-
-   input,
    select {
-      width: 100%;
-      /* Volle Breite der Eingaben */
       font-size: 12px;
-      /* Schriftgröße für Eingaben weiter reduzieren */
+      padding: 0 0 0 12px;
+      width: 140px
    }
 
    .container {
       grid-template-rows: auto;
-      grid-template-columns: repeat(2, 1fr) !important;
-
+      grid-template-columns: repeat(2, 1fr) !important
    }
 
+   .container h3,
+   h1 {
+      font-size: 18pt
+   }
 
    .dark-light-toggle {
       width: 41px;
-      height: 27px;
+      height: 27px
    }
 
    #card-1,
@@ -796,65 +671,69 @@ section:hover {
    #card-5,
    #card-6,
    #card-7 {
-      grid-column: span 2 !important;
+      grid-column: span 2 !important
    }
 
    .funfact {
-      padding: 31px;
-      font-size: 11pt;
+      padding-left: 33px;
+      padding-right: 33px;
+      font-size: clamp(.65rem, 66%, 3rem)
    }
 
    .emoji {
-      font-size: 92pt;
+      font-size: 92pt
+   }
+
+   input,
+   select {
+      border-radius: 0 !important
    }
 
    input {
+      width: 100%;
       font-size: 16pt !important;
-      padding-left: 18px;
-      border-radius: 0 !important;
+      padding-left: 18px
    }
 
-   select {
-      padding: 0;
-      padding-left: 12px;
-      width: 140px;
-      border-radius: 0 !important;
-   }
-
+   .icon-container svg,
    .title-header {
       margin: 0 !important;
-      position: relative;
-   }
-
-   .icon-container svg {
-      margin: 0 !important;
-      position: relative;
+      position: relative
    }
 
    .trend {
-      font-size: 25pt;
+      font-size: 23pt
    }
 
+   #card-1 {
+      height: 420px !important
+   }
 
+   .diagram {
+      height: 350px
+   }
 }
 
-@media (max-width: 352px) {
+@media (max-width:352px) {
    body {
-      margin: 0;
+      margin: 0
    }
 
-   .title-header {
+   .title-header,
+   .title-header h1 {
       padding: 0 !important;
-      margin: 0 !important;
+      margin: 0 !important
    }
 
    .title-header h1 {
-      padding: 0 !important;
-      margin: 0 !important;
+      font-size: 18pt
    }
 
    .nav-bar {
-      margin: 16px;
+      margin: 16px
    }
 
+   .funfact {
+      font-size: clamp(.5rem, 2.2vw, 2.5rem)
+   }
 }

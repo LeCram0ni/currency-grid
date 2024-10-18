@@ -17,9 +17,3 @@ export default function Trend({ selectedCurrency1, selectedCurrency2, first, lat
       </div>
    </>)
 }
-
-/*
-<span>
-   Der Kurs von <br /><b>{selectedCurrency1}</b> {"=>"} <b>{selectedCurrency2}</b> ist in <br />den letzten 30 Tagen um <b>{Math.abs(trend).toFixed(4)}% {trendWording}</b>
-</span> 
-               */

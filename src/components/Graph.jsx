@@ -1,27 +1,62 @@
-
+/* eslint-disable no-unused-vars */
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend, Title } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend, Title);
 
-export default function Graph({ selectedCurrency1, selectedCurrency2, combinedData, highest, lowest, isDarkMode }) {
+export default function Graph({ selectedCurrency1, selectedCurrency2, dataArray, dateArray, highest, lowest, isDarkMode }) {
 
-   //"EUR", "USD", "GBP", "CHF", "CZK", "DKK", "HUF", "NOK", "PLN", "RON", "SEK", "JPY", "CNY"
+   const bgColorD = "#0B0C10"
+   const fontColorD = "#D3D9D4"
+   const mainColorD = "#272f35"
+   const secondaryColorD = "#66FCF1"
+   const highlightColorD = "#124E66"
 
-   let rangeVal = 0.1;
-   let steps = 11.5
+   const bgColor = "#f0f1f5"
+   const fontColor = "#262c27"
+   const mainColor = "#d7dde4"
+   const secondaryColor = "#0092cc"
+   const highlightColor = "#97e2ff"
 
-   let gridColor = "white";
+   let gridColor;
+   let graph;
+   let toolTipBG;
+   let toolTipFontColor;
+   let legend;
 
    if (isDarkMode) {
       gridColor = "rgba(255,255,255,0.18)"
+      graph = secondaryColorD
+      toolTipBG = bgColorD
+      toolTipFontColor = secondaryColorD
+      legend = fontColorD
+
    } else {
-      gridColor = "rgba(255,255,255,0.55)"
+      gridColor = "rgba(0,0,0,0.25)"
+      graph = secondaryColor
+      toolTipBG = bgColor
+      toolTipFontColor = secondaryColor
+      legend = fontColor
    }
+
+   let rangeVal = 0.1
+   let steps = 11.5
+
+   const combinedData = {
+      labels: dateArray,
+      datasets: [
+         {
+            data: dataArray,
+            borderColor: graph,
+            tension: 0.2,
+            borderWidth: 2.5,
+            pointRadius: 2,
+         }
+      ],
+   };
 
    const calculateStepSizeInPercentage = (lowest, highest) => {
       const range = highest - lowest;
-      console.log(range)
       rangeVal = range * (1 / steps)
       return rangeVal
    };
@@ -38,13 +73,13 @@ export default function Graph({ selectedCurrency1, selectedCurrency2, combinedDa
             callbacks: {
                label: function (tooltipItem) {
                   const value = parseFloat(tooltipItem.raw);
-                  return value.toFixed(4);
+                  return value.toFixed(5);
                },
             },
             // Tooltip-Optionen
-            backgroundColor: 'rgba(211,217,212, 1)',
-            titleColor: '#000',
-            bodyColor: '#000',
+            backgroundColor: toolTipBG,
+            titleColor: toolTipFontColor,
+            bodyColor: toolTipFontColor,
             borderColor: 'rgba(211,217,212, 1)',
             borderWidth: 1,
             // Schriftart für Tooltip
@@ -71,9 +106,9 @@ export default function Graph({ selectedCurrency1, selectedCurrency2, combinedDa
             },
             ticks: {
                stepSize: stepSize, // Hier die Schrittgröße anpassen
-               color: "#D3D9D4", // Ändere die Farbe der y-Achsenbeschriftung
+               color: legend, // Ändere die Farbe der y-Achsenbeschriftung
                callback: function (value) {
-                  return value.toFixed(3); // Hier die Anzahl der Nachkommastellen anpassen
+                  return value.toFixed(5); // Hier die Anzahl der Nachkommastellen anpassen
                }
             }
          },
@@ -83,7 +118,7 @@ export default function Graph({ selectedCurrency1, selectedCurrency2, combinedDa
                lineWidth: 1, // Liniendicke der Gitterlinien
             },
             ticks: {
-               color: "#D3D9D4" // Ändere die Farbe der x-Achsenbeschriftung
+               color: legend // Ändere die Farbe der x-Achsenbeschriftung
             }
          },
       },

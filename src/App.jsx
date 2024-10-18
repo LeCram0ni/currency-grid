@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useMemo } from 'react'
 import Card from "./components/Card"
 import Graph from './components/Graph'
@@ -8,21 +7,18 @@ import CurrencyBox from './components/CurrencyBox'
 import Trend from './components/Trend'
 import HighestLowestRate from './components/HighestLowestRate.jsx'
 import Funfact from './components/Funfact'
-
-//import beacon from "./currencyBeaconResult.json"
-import key from "./key.js"
-
-import { currencies, currencySymbols } from "./currencies"
-
-import './App.css'
 import CurrencySwitch from './components/CurrencySwitch'
 import DarkmodeToggle from './components/DarkmodeToggle'
+
+import { currencies, currencySymbols } from "./currencies.js"
+import key from "./key.js"
+
+import './App.css'
 
 function App() {
 
    const [data, setData] = useState(null)
    const [error, setError] = useState(null)
-   const [loading, setLoading] = useState(null)
    const [isDarkMode, setIsDarkMode] = useState(true)
    const [textValue, setTextValue] = useState("")
    const [selectedCurrency1, setSelectedCurrency1] = useState(currencies[1])
@@ -55,7 +51,7 @@ function App() {
       const savedData = localStorage.getItem(storageKey);
       if (savedData) {
          setData(JSON.parse(savedData));
-         console.log("Daten aus dem LocalStorage geladen");
+         console.log("LocalStorage loaded");
       } else {
          getApiData();
       }
@@ -63,14 +59,12 @@ function App() {
 
    useEffect(() => {
       if (data) {
-         const storageKey = `${endDate}-${selectedCurrency1}`; // gleicher dynamischer Schlüssel
+         const storageKey = `${endDate}-${selectedCurrency1}`;
          localStorage.setItem(storageKey, JSON.stringify(data));
-         console.log(`Daten wurden unter dem Schlüssel ${storageKey} im LocalStorage gespeichert.`);
       }
    }, [data, selectedCurrency1, startDate, endDate]);
 
    function getApiData() {
-      //setLoading(true)
       fetch(url)
          .then((res) => {
             if (!res.ok) {
@@ -79,22 +73,14 @@ function App() {
             return res.json()
          })
          .then((dat) => {
-            console.log("API Aufruf")
+            console.log("API call")
             setData(dat)
             localStorage.setItem(storageKey, JSON.stringify(dat));
-            setLoading(false)
          })
          .catch((err) => {
             setError(err)
-            setLoading(false)
          })
    }
-
-   useEffect(() => {
-      if (data) {
-         console.log(data);
-      }
-   }, [data]);
 
    const { dataArray, dateArray, highest, lowest } = useMemo(() => {
       if (!data) {
@@ -111,7 +97,6 @@ function App() {
       for (let i = 0; i < 31; i++) {
          workingDate.setDate(workingDate.getDate() + 1);
          let dateISO = workingDate.toISOString().split('T')[0];
-         console.log(dateISO)
          let value = data.response[dateISO][selectedCurrency2];
          tempDataArray.push(value);
 
@@ -136,22 +121,6 @@ function App() {
       };
    }, [data, selectedCurrency2]);
 
-   const combinedData = useMemo(() => ({
-      labels: dateArray,
-      datasets: [
-         {
-            data: dataArray,
-            borderColor: '#66FCF1',
-            tension: 0.2, // für eine glattere Kurve
-            borderWidth: 3.5,
-            pointRadius: 3,
-            /*pointBackgroundColor: "#fff", 
-            pointBorderColor: "#fff",*/
-         }
-      ],
-   }), [dataArray, dateArray]);
-
-   if (loading) return (<div></div>)
    if (error) return (<div>Error: {error.message}</div>)
 
    let first = parseFloat(dataArray[0]);
@@ -179,32 +148,28 @@ function App() {
       setSelectedCurrency2(oldFirst)
    }
 
-   //console.log(dataArray)
-
    return (
       <>
          <div className="nav-bar">
             <Title />
-
             <DarkmodeToggle
                isDarkMode={isDarkMode}
                switchMode={switchMode}
             />
          </div>
          <div className="container">
-
             <Card className="width-full mobile-full" id="card-1" height="720" style={{ borderRadius: "64px 64px 8px 8px" }}>
                <Graph
                   selectedCurrency1={selectedCurrency1}
                   selectedCurrency2={selectedCurrency2}
-                  combinedData={combinedData}
+                  dataArray={dataArray}
+                  dateArray={dateArray}
                   highest={highest}
                   lowest={lowest}
                   isDarkMode={isDarkMode}
                />
             </Card>
-
-            <Card className="width-quarter mobile-half" id="card-3" background={isDarkMode ? "var(--highlight)" : "var(--highlight-neon)"}>
+            <Card className="width-quarter mobile-half" id="card-3" >
                <CurrentRate
                   selectedCurrency1={selectedCurrency1}
                   selectedCurrency2={selectedCurrency2}
@@ -212,7 +177,6 @@ function App() {
                   endDate={endDate}
                />
             </Card>
-
             <Card className="width-half mobile-full" id="card-2">
                <CurrencyBox
                   textValue={textValue}
@@ -225,11 +189,9 @@ function App() {
                   selectedCurrency2={selectedCurrency2}
                />
             </Card>
-
             <Card className="width-quarter mobile-half" id="card-4"  >
                <CurrencySwitch currencySwitch={currencySwitch} />
             </Card>
-
             <Card className="width-quarter mobile-half" id="card-5" >
                <HighestLowestRate
                   selectedCurrency1={selectedCurrency1}
@@ -238,11 +200,9 @@ function App() {
                   lowest={lowest}
                />
             </Card>
-
             <Card className="width-half mobile-full" id="card-7" >
                <Funfact />
             </Card>
-
             <Card className="width-quarter mobile-half" id="card-6"  >
                <Trend
                   selectedCurrency1={selectedCurrency1}
@@ -251,7 +211,6 @@ function App() {
                   latest={latest}
                />
             </Card>
-
          </div>
       </>
    )
